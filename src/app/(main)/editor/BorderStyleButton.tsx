@@ -1,8 +1,5 @@
 import { Button } from "@/components/ui/button";
-import usePremiumModal from "@/hooks/usePremiumModal";
-import { canUseCustomizations } from "@/lib/permissions";
 import { Circle, Square, Squircle } from "lucide-react";
-import { useSubscriptionLevel } from "../SubscriptionLevelProvider";
 
 export const BorderStyles = {
   SQUARE: "square",
@@ -21,16 +18,8 @@ export default function BorderStyleButton({
   borderStyle,
   onChange,
 }: BorderStyleButtonProps) {
-  const subscriptionLevel = useSubscriptionLevel();
-
-  const premiumModal = usePremiumModal();
-
   function handleClick() {
-    if (!canUseCustomizations(subscriptionLevel)) {
-      premiumModal.setOpen(true);
-      return;
-    }
-
+    // Customizations are now available to all users
     const currentIndex = borderStyle ? borderStyles.indexOf(borderStyle) : 0;
     const nextIndex = (currentIndex + 1) % borderStyles.length;
     onChange(borderStyles[nextIndex]);
