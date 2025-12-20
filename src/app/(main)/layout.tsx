@@ -1,4 +1,5 @@
 import PremiumModal from "@/components/premium/PremiumModal";
+import Footer from "@/components/Footer";
 import { auth } from "@clerk/nextjs/server";
 import Navbar from "./Navbar";
 
@@ -17,6 +18,7 @@ export default async function Layout({
     <div className="flex min-h-screen flex-col">
       <Navbar />
       {children}
+      <Footer />
       <PremiumModal />
     </div>
   );
