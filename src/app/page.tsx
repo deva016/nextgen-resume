@@ -3,8 +3,14 @@ import logo from "@/assets/logo.png";
 import Link from "next/link";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+import { auth } from "@clerk/nextjs/server";
+import { UserButton } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
+import ThemeToggle from "@/components/ThemeToggle";
 
-export default function Home() {
+export default async function Home() {
+  const { userId } = await auth();
+
   return (
     <div className="flex min-h-screen flex-col">
       {/* Navbar - consistent with other pages */}
@@ -24,21 +30,41 @@ export default function Home() {
           </Link>
 
           <div className="flex items-center gap-3">
-            <Button asChild variant="outline">
-              <Link href="/sign-up">Sign up</Link>
-            </Button>
-            <Button
-              asChild
-              className="bg-orange-500 hover:bg-orange-600"
-            >
-              <Link href="/sign-in">Sign in</Link>
-            </Button>
+            {userId ? (
+              <>
+                <ThemeToggle />
+                <UserButton
+                  appearance={{
+                    baseTheme: dark,
+                    elements: {
+                      avatarBox: {
+                        width: 35,
+                        height: 35,
+                      },
+                    },
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <Button asChild variant="outline">
+                  <Link href="/sign-up">Sign up</Link>
+                </Button>
+                <Button
+                  asChild
+                  className="bg-orange-500 hover:bg-orange-600"
+                >
+                  <Link href="/sign-in">Sign in</Link>
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <main className="flex-1 bg-gradient-to-br from-white to-gray-50">
+      <main className="flex-1 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+
         <div className="container mx-auto px-6 py-12 md:py-20">
           <div className="mx-auto max-w-4xl text-center">
             <div className="relative space-y-8">

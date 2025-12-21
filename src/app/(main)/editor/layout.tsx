@@ -1,8 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
-import Navbar from "../Navbar";
 import PremiumModal from "@/components/premium/PremiumModal";
 
-// Editor has its own navigation footer, so we don't include the global Footer here
+// Editor layout - no Navbar here since parent (main) layout already has it
+// No Footer here since editor has its own navigation footer
 export default async function EditorLayout({
   children,
 }: {
@@ -15,10 +15,9 @@ export default async function EditorLayout({
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Navbar />
+    <>
       {children}
       <PremiumModal />
-    </div>
+    </>
   );
 }
