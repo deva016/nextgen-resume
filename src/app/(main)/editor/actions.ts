@@ -36,12 +36,14 @@ export async function saveResume(values: ResumeValues) {
 
   let newPhotoUrl: string | undefined | null = undefined;
 
-  if (photo instanceof File) {
+  // Check if photo is a file-like object (has name property and is an object)
+  // Using this approach because File constructor is not available in server-side Node.js
+  if (photo && typeof photo === "object" && "name" in photo && "size" in photo) {
     if (existingResume?.photoUrl) {
       await del(existingResume.photoUrl);
     }
 
-    const blob = await put(`resume_photos/${path.extname(photo.name)}`, photo, {
+    const blob = await put(`resume_photos/${path.extname((photo as { name: string }).name)}`, photo as Blob, {
       access: "public",
     });
 
