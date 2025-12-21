@@ -17,7 +17,7 @@ export default async function Layout({
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-      {children}
+      <div className="flex-1">{children}</div>
       <Footer />
       <PremiumModal />
     </div>
