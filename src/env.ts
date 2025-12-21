@@ -13,7 +13,7 @@ export const env = createEnv({
     POSTGRES_DATABASE: z.string().min(1),
     CLERK_SECRET_KEY: z.string().min(1),
     BLOB_READ_WRITE_TOKEN: z.string().min(1),
-    OPENAI_API_KEY: z.string().min(1),
+    // OPENAI_API_KEY: z.string().min(1), // Commented out - AI features disabled
   },
   client: {
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),

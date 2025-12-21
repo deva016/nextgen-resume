@@ -1,24 +1,30 @@
 "use server";
 
-import openai from "@/lib/openai";
-import {
-  GenerateSummaryInput,
-  generateSummarySchema,
-  GenerateWorkExperienceInput,
-  generateWorkExperienceSchema,
-  WorkExperience,
-} from "@/lib/validation";
+// import openai from "@/lib/openai"; // Commented out - AI features disabled
+// Commented out - not needed when AI is disabled
+// import {
+//   GenerateSummaryInput,
+//   generateSummarySchema,
+//   GenerateWorkExperienceInput,
+//   generateWorkExperienceSchema,
+//   WorkExperience,
+// } from "@/lib/validation";
+import type { GenerateSummaryInput, GenerateWorkExperienceInput } from "@/lib/validation";
 import { auth } from "@clerk/nextjs/server";
 
-export async function generateSummary(input: GenerateSummaryInput) {
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+export async function generateSummary(input: GenerateSummaryInput): Promise<string> {
   const { userId } = await auth();
 
   if (!userId) {
     throw new Error("Unauthorized");
   }
 
-  // AI tools are now available to all users
+  // AI features temporarily disabled
+  return "AI summary generation is currently unavailable. Please write your summary manually.";
 
+  /* COMMENTED OUT - OpenAI AI Generation
   const { jobTitle, workExperiences, educations, skills } =
     generateSummarySchema.parse(input);
 
@@ -81,6 +87,7 @@ export async function generateSummary(input: GenerateSummaryInput) {
   }
 
   return aiResponse;
+  */
 }
 
 export async function generateWorkExperience(
@@ -92,8 +99,16 @@ export async function generateWorkExperience(
     throw new Error("Unauthorized");
   }
 
-  // AI tools are now available to all users
+  // AI features temporarily disabled - return empty object
+  return {
+    position: "",
+    company: "",
+    description: "AI work experience generation is currently unavailable. Please enter details manually.",
+    startDate: undefined,
+    endDate: undefined,
+  };
 
+  /* COMMENTED OUT - OpenAI AI Generation
   const { description } = generateWorkExperienceSchema.parse(input);
 
   const systemMessage = `
@@ -141,4 +156,5 @@ export async function generateWorkExperience(
     startDate: aiResponse.match(/Start date: (\d{4}-\d{2}-\d{2})/)?.[1],
     endDate: aiResponse.match(/End date: (\d{4}-\d{2}-\d{2})/)?.[1],
   } satisfies WorkExperience;
+  */
 }

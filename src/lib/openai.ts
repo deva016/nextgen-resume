@@ -1,5 +1,9 @@
-import OpenAI from "openai";
+// OpenAI features temporarily disabled
+// Uncomment below and add OPENAI_API_KEY to enable AI features
 
-const openai = new OpenAI();
+// import OpenAI from "openai";
+// const openai = new OpenAI();
+// export default openai;
 
-export default openai;
+export default null; // Placeholder - replace with OpenAI instance when enabled
+
