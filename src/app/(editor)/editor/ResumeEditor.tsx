@@ -11,6 +11,7 @@ import Footer from "./Footer";
 import ResumePreviewSection from "./ResumePreviewSection";
 import { steps } from "./steps";
 import useAutoSaveResume from "./useAutoSaveResume";
+import { Sparkles } from "lucide-react";
 
 interface ResumeEditorProps {
   resumeToEdit: ResumeServerData | null;
@@ -43,15 +44,21 @@ export default function ResumeEditor({ resumeToEdit }: ResumeEditorProps) {
 
   return (
     <div className="flex grow flex-col">
-      <header className="space-y-1.5 border-b px-3 py-5 text-center">
-        <h1 className="text-2xl font-bold">Design your resume</h1>
-        <p className="text-sm text-muted-foreground">
+      <header className="space-y-1.5 border-b border-white/10 px-3 py-5 text-center">
+        <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/10 px-3 py-1 text-xs text-purple-300 mb-2">
+          <Sparkles className="h-3 w-3" />
+          Resume Editor
+        </div>
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+          Design your resume
+        </h1>
+        <p className="text-sm text-gray-400">
           Follow the steps below to create your resume. Your progress will be
           saved automatically.
         </p>
       </header>
       <main className="relative grow">
-        <div className="absolute bottom-0 top-0 flex w-full">
+        <div className="absolute inset-0 flex">
           <div
             className={cn(
               "w-full space-y-6 overflow-y-auto p-3 md:block md:w-1/2",
@@ -66,7 +73,7 @@ export default function ResumeEditor({ resumeToEdit }: ResumeEditorProps) {
               />
             )}
           </div>
-          <div className="grow md:border-r" />
+          <div className="grow md:border-r md:border-white/10" />
           <ResumePreviewSection
             resumeData={resumeData}
             setResumeData={setResumeData}
