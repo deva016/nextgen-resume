@@ -44,9 +44,24 @@ export function mapToResumeValues(data: ResumeServerData): ResumeValues {
       startDate: edu.startDate?.toISOString().split("T")[0],
       endDate: edu.endDate?.toISOString().split("T")[0],
     })),
+    projects: data.projects.map((proj) => ({
+      name: proj.name || undefined,
+      description: proj.description || undefined,
+      year: proj.year || undefined,
+      link: proj.link || undefined,
+    })),
+    certifications: data.certifications.map((cert) => ({
+      name: cert.name || undefined,
+      yearRange: cert.yearRange || undefined,
+      link: cert.link || undefined,
+    })),
     skills: data.skills,
+    strengths: data.strengths,
+    languages: data.languages,
     borderStyle: data.borderStyle,
     colorHex: data.colorHex,
+    template: data.template,
     summary: data.summary || undefined,
   };
 }
+
