@@ -42,19 +42,19 @@ export default function ResumeItem({ resume }: ResumeItemProps) {
   const wasUpdated = resume.updatedAt !== resume.createdAt;
 
   return (
-    <div className="group relative rounded-lg border border-transparent bg-secondary p-3 transition-colors hover:border-border">
+    <div className="group relative rounded-2xl border border-white/10 bg-white/5 p-3 backdrop-blur-sm transition-all hover:border-purple-500/50 hover:bg-white/10">
       <div className="space-y-3">
         <Link
           href={`/editor?resumeId=${resume.id}`}
           className="inline-block w-full text-center"
         >
-          <p className="line-clamp-1 font-semibold">
-            {resume.title || "No title"}
+          <p className="line-clamp-1 font-semibold text-white">
+            {resume.title || "Untitled Resume"}
           </p>
           {resume.description && (
-            <p className="line-clamp-2 text-sm">{resume.description}</p>
+            <p className="line-clamp-2 text-sm text-gray-400">{resume.description}</p>
           )}
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-gray-500">
             {wasUpdated ? "Updated" : "Created"} on{" "}
             {formatDate(resume.updatedAt, "MMM d, yyyy h:mm a")}
           </p>
@@ -66,9 +66,9 @@ export default function ResumeItem({ resume }: ResumeItemProps) {
           <ResumePreview
             resumeData={mapToResumeValues(resume)}
             contentRef={contentRef}
-            className="overflow-hidden shadow-sm transition-shadow group-hover:shadow-lg"
+            className="overflow-hidden rounded-lg shadow-sm transition-shadow group-hover:shadow-lg group-hover:shadow-purple-500/10"
           />
-          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#0a0a0f] to-transparent" />
         </Link>
       </div>
       <MoreMenu resumeId={resume.id} onPrintClick={reactToPrintFn} />
@@ -91,25 +91,25 @@ function MoreMenu({ resumeId, onPrintClick }: MoreMenuProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-0.5 top-0.5 opacity-0 transition-opacity group-hover:opacity-100"
+            className="absolute right-1 top-1 opacity-0 transition-opacity group-hover:opacity-100 text-gray-400 hover:text-white hover:bg-white/10"
           >
             <MoreVertical className="size-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className="border-white/10 bg-[#1a1a2f] text-white">
           <DropdownMenuItem
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 text-red-400 focus:text-red-400 focus:bg-red-500/10"
             onClick={() => setShowDeleteConfirmation(true)}
           >
             <Trash2 className="size-4" />
             Delete
           </DropdownMenuItem>
           <DropdownMenuItem
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 focus:bg-white/10"
             onClick={onPrintClick}
           >
             <Printer className="size-4" />
-            Print
+            Print / Export PDF
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -154,10 +154,10 @@ function DeleteConfirmationDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="border-white/10 bg-[#1a1a2f] text-white">
         <DialogHeader>
           <DialogTitle>Delete resume?</DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-gray-400">
             This will permanently delete this resume. This action cannot be
             undone.
           </DialogDescription>
@@ -170,7 +170,11 @@ function DeleteConfirmationDialog({
           >
             Delete
           </LoadingButton>
-          <Button variant="secondary" onClick={() => onOpenChange(false)}>
+          <Button 
+            variant="outline" 
+            onClick={() => onOpenChange(false)}
+            className="border-white/20 bg-white/5 hover:bg-white/10 text-white"
+          >
             Cancel
           </Button>
         </DialogFooter>

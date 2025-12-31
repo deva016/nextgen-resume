@@ -16,10 +16,13 @@ export default function CreateResumeButton({
 
   if (canCreate) {
     return (
-      <Button asChild className="mx-auto flex w-fit gap-2">
+      <Button 
+        asChild 
+        className="flex gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 border-0 shadow-lg shadow-purple-500/25"
+      >
         <Link href="/editor">
           <PlusSquare className="size-5" />
-          New resume
+          New Resume
         </Link>
       </Button>
     );
@@ -28,10 +31,10 @@ export default function CreateResumeButton({
   return (
     <Button
       onClick={() => premiumModal.setOpen(true)}
-      className="mx-auto flex w-fit gap-2"
+      className="flex gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 border-0 shadow-lg shadow-purple-500/25"
     >
       <PlusSquare className="size-5" />
-      New resume
+      New Resume
     </Button>
   );
 }

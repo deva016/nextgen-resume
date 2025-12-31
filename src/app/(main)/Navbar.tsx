@@ -1,36 +1,40 @@
 "use client";
 
 import logo from "@/assets/logo.png";
-import ThemeToggle from "@/components/ThemeToggle";
 import { UserButton } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
-import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Navbar() {
-  const { theme } = useTheme();
-
   return (
-    <header className="shadow-sm">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 p-3">
-        <Link href="/resumes" className="flex items-center gap-2">
-          <Image
-            src={logo}
-            alt="Logo"
-            width={35}
-            height={35}
-            className="rounded-full"
-          />
-          <span className="text-xl font-bold tracking-tight">
-            AI Resume Builder
+    <header className="sticky top-0 z-50 border-b border-white/10 backdrop-blur-xl bg-white/5">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-6 py-4">
+        <Link href="/resumes" className="flex items-center gap-3">
+          <div className="relative">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 blur-sm" />
+            <Image
+              src={logo}
+              alt="Logo"
+              width={40}
+              height={40}
+              className="relative rounded-full"
+            />
+          </div>
+          <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            NextGen Resume
           </span>
         </Link>
-        <div className="flex items-center gap-3">
-          <ThemeToggle />
+        <div className="flex items-center gap-4">
+          <Link 
+            href="/" 
+            className="text-sm text-gray-400 hover:text-white transition-colors"
+          >
+            Home
+          </Link>
           <UserButton
             appearance={{
-              baseTheme: theme === "dark" ? dark : undefined,
+              baseTheme: dark,
               elements: {
                 avatarBox: {
                   width: 35,
@@ -38,8 +42,7 @@ export default function Navbar() {
                 },
               },
             }}
-          >
-          </UserButton>
+          />
         </div>
       </div>
     </header>
