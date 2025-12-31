@@ -42,7 +42,11 @@ export default function ResumePreview({
         <SummarySection resumeData={resumeData} />
         <WorkExperienceSection resumeData={resumeData} />
         <EducationSection resumeData={resumeData} />
+        <ProjectsSection resumeData={resumeData} />
+        <CertificationsSection resumeData={resumeData} />
         <SkillsSection resumeData={resumeData} />
+        <StrengthsSection resumeData={resumeData} />
+        <LanguagesSection resumeData={resumeData} />
       </div>
     </div>
   );
@@ -292,6 +296,195 @@ function SkillsSection({ resumeData }: ResumeSectionProps) {
               }}
             >
               {skill}
+            </Badge>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+function ProjectsSection({ resumeData }: ResumeSectionProps) {
+  const { projects, colorHex } = resumeData;
+
+  const projectsNotEmpty = projects?.filter(
+    (proj) => Object.values(proj).filter(Boolean).length > 0,
+  );
+
+  if (!projectsNotEmpty?.length) return null;
+
+  return (
+    <>
+      <hr
+        className="border-2"
+        style={{
+          borderColor: colorHex,
+        }}
+      />
+      <div className="space-y-3">
+        <p
+          className="text-lg font-semibold"
+          style={{
+            color: colorHex,
+          }}
+        >
+          Projects
+        </p>
+        {projectsNotEmpty.map((proj, index) => (
+          <div key={index} className="break-inside-avoid space-y-1">
+            <div
+              className="flex items-center justify-between text-sm font-semibold"
+              style={{
+                color: colorHex,
+              }}
+            >
+              <span>{proj.name}</span>
+              {proj.year && <span>{proj.year}</span>}
+            </div>
+            {proj.description && (
+              <div className="whitespace-pre-line text-xs">{proj.description}</div>
+            )}
+            {proj.link && (
+              <p className="text-xs text-blue-600 underline">{proj.link}</p>
+            )}
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function CertificationsSection({ resumeData }: ResumeSectionProps) {
+  const { certifications, colorHex } = resumeData;
+
+  const certificationsNotEmpty = certifications?.filter(
+    (cert) => Object.values(cert).filter(Boolean).length > 0,
+  );
+
+  if (!certificationsNotEmpty?.length) return null;
+
+  return (
+    <>
+      <hr
+        className="border-2"
+        style={{
+          borderColor: colorHex,
+        }}
+      />
+      <div className="space-y-3">
+        <p
+          className="text-lg font-semibold"
+          style={{
+            color: colorHex,
+          }}
+        >
+          Certifications
+        </p>
+        {certificationsNotEmpty.map((cert, index) => (
+          <div key={index} className="break-inside-avoid space-y-1">
+            <div
+              className="flex items-center justify-between text-sm font-semibold"
+              style={{
+                color: colorHex,
+              }}
+            >
+              <span>{cert.name}</span>
+              {cert.yearRange && <span>{cert.yearRange}</span>}
+            </div>
+            {cert.link && (
+              <p className="text-xs text-blue-600 underline">{cert.link}</p>
+            )}
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function StrengthsSection({ resumeData }: ResumeSectionProps) {
+  const { strengths, colorHex, borderStyle } = resumeData;
+
+  if (!strengths?.length) return null;
+
+  return (
+    <>
+      <hr
+        className="border-2"
+        style={{
+          borderColor: colorHex,
+        }}
+      />
+      <div className="break-inside-avoid space-y-3">
+        <p
+          className="text-lg font-semibold"
+          style={{
+            color: colorHex,
+          }}
+        >
+          Strengths
+        </p>
+        <div className="flex break-inside-avoid flex-wrap gap-2">
+          {strengths.map((strength, index) => (
+            <Badge
+              key={index}
+              className="rounded-md bg-black text-white hover:bg-black"
+              style={{
+                backgroundColor: colorHex,
+                borderRadius:
+                  borderStyle === BorderStyles.SQUARE
+                    ? "0px"
+                    : borderStyle === BorderStyles.CIRCLE
+                      ? "9999px"
+                      : "8px",
+              }}
+            >
+              {strength}
+            </Badge>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+function LanguagesSection({ resumeData }: ResumeSectionProps) {
+  const { languages, colorHex, borderStyle } = resumeData;
+
+  if (!languages?.length) return null;
+
+  return (
+    <>
+      <hr
+        className="border-2"
+        style={{
+          borderColor: colorHex,
+        }}
+      />
+      <div className="break-inside-avoid space-y-3">
+        <p
+          className="text-lg font-semibold"
+          style={{
+            color: colorHex,
+          }}
+        >
+          Languages
+        </p>
+        <div className="flex break-inside-avoid flex-wrap gap-2">
+          {languages.map((language, index) => (
+            <Badge
+              key={index}
+              className="rounded-md bg-black text-white hover:bg-black"
+              style={{
+                backgroundColor: colorHex,
+                borderRadius:
+                  borderStyle === BorderStyles.SQUARE
+                    ? "0px"
+                    : borderStyle === BorderStyles.CIRCLE
+                      ? "9999px"
+                      : "8px",
+              }}
+            >
+              {language}
             </Badge>
           ))}
         </div>

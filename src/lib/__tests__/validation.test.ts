@@ -3,7 +3,11 @@ import {
   generalInfoSchema,
   workExperienceSchema,
   educationSchema,
+  projectSchema,
+  certificationSchema,
   skillsSchema,
+  strengthsSchema,
+  languagesSchema,
   summarySchema,
   generateWorkExperienceSchema,
   generateSummarySchema,
@@ -173,6 +177,105 @@ describe('Validation Schemas', () => {
     it('should accept empty input', () => {
       const result = generateSummarySchema.parse({});
       expect(result.jobTitle).toBeUndefined();
+    });
+  });
+
+  describe('projectSchema', () => {
+    it('should accept valid project entries', () => {
+      const result = projectSchema.parse({
+        projects: [
+          {
+            name: 'E-commerce Website',
+            description: 'Built a full-stack e-commerce platform',
+            year: '2024',
+            link: 'https://example.com',
+          },
+        ],
+      });
+      expect(result.projects).toHaveLength(1);
+      expect(result.projects![0].name).toBe('E-commerce Website');
+    });
+
+    it('should accept empty projects', () => {
+      const result = projectSchema.parse({});
+      expect(result.projects).toBeUndefined();
+    });
+
+    it('should accept multiple projects', () => {
+      const result = projectSchema.parse({
+        projects: [
+          { name: 'Project 1', year: '2023' },
+          { name: 'Project 2', year: '2024' },
+        ],
+      });
+      expect(result.projects).toHaveLength(2);
+    });
+  });
+
+  describe('certificationSchema', () => {
+    it('should accept valid certification entries', () => {
+      const result = certificationSchema.parse({
+        certifications: [
+          {
+            name: 'AWS Solutions Architect',
+            yearRange: '2024 - 2027',
+            link: 'https://aws.amazon.com/certification',
+          },
+        ],
+      });
+      expect(result.certifications).toHaveLength(1);
+      expect(result.certifications![0].name).toBe('AWS Solutions Architect');
+    });
+
+    it('should accept empty certifications', () => {
+      const result = certificationSchema.parse({});
+      expect(result.certifications).toBeUndefined();
+    });
+  });
+
+  describe('strengthsSchema', () => {
+    it('should accept valid strengths array', () => {
+      const result = strengthsSchema.parse({
+        strengths: ['Leadership', 'Problem Solving', 'Communication'],
+      });
+      expect(result.strengths).toHaveLength(3);
+      expect(result.strengths).toContain('Leadership');
+    });
+
+    it('should accept empty strengths', () => {
+      const result = strengthsSchema.parse({});
+      expect(result.strengths).toBeUndefined();
+    });
+
+    it('should trim strength strings', () => {
+      const result = strengthsSchema.parse({
+        strengths: ['  Leadership  ', '  Teamwork  '],
+      });
+      expect(result.strengths![0]).toBe('Leadership');
+      expect(result.strengths![1]).toBe('Teamwork');
+    });
+  });
+
+  describe('languagesSchema', () => {
+    it('should accept valid languages array', () => {
+      const result = languagesSchema.parse({
+        languages: ['English', 'Hindi', 'Spanish'],
+      });
+      expect(result.languages).toHaveLength(3);
+      expect(result.languages).toContain('English');
+    });
+
+    it('should accept empty languages', () => {
+      const result = languagesSchema.parse({});
+      expect(result.languages).toBeUndefined();
+    });
+
+    it('should trim language strings', () => {
+      const result = languagesSchema.parse({
+        languages: ['  English  ', '  French  '],
+      });
+      expect(result.languages![0]).toBe('English');
+      expect(result.languages![1]).toBe('French');
     });
   });
 });

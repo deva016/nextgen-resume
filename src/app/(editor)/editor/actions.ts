@@ -11,7 +11,7 @@ export async function saveResume(values: ResumeValues) {
 
   console.log("received values", values);
 
-  const { photo, workExperiences, educations, ...resumeValues } =
+  const { photo, workExperiences, educations, projects, certifications, ...resumeValues } =
     resumeSchema.parse(values);
 
   const { userId } = await auth();
@@ -77,6 +77,18 @@ export async function saveResume(values: ResumeValues) {
             endDate: edu.endDate ? new Date(edu.endDate) : undefined,
           })),
         },
+        projects: {
+          deleteMany: {},
+          create: projects?.map((proj) => ({
+            ...proj,
+          })),
+        },
+        certifications: {
+          deleteMany: {},
+          create: certifications?.map((cert) => ({
+            ...cert,
+          })),
+        },
         updatedAt: new Date(),
       },
     });
@@ -98,6 +110,16 @@ export async function saveResume(values: ResumeValues) {
             ...edu,
             startDate: edu.startDate ? new Date(edu.startDate) : undefined,
             endDate: edu.endDate ? new Date(edu.endDate) : undefined,
+          })),
+        },
+        projects: {
+          create: projects?.map((proj) => ({
+            ...proj,
+          })),
+        },
+        certifications: {
+          create: certifications?.map((cert) => ({
+            ...cert,
           })),
         },
       },
