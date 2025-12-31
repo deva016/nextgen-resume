@@ -6,6 +6,7 @@ import { formatDate } from "date-fns";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { Badge } from "./ui/badge";
+import ProfessionalTemplate from "./templates/ProfessionalTemplate";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
@@ -22,6 +23,29 @@ export default function ResumePreview({
 
   const { width } = useDimensions(containerRef);
 
+  // Use Professional template if selected
+  if (resumeData.template === "professional") {
+    return (
+      <div
+        className={cn(
+          "aspect-[210/297] h-fit w-full bg-white text-black",
+          className,
+        )}
+        ref={containerRef}
+      >
+        <div
+          className={cn("", !width && "invisible")}
+          style={{
+            zoom: (1 / 794) * width,
+          }}
+        >
+          <ProfessionalTemplate resumeData={resumeData} contentRef={contentRef} />
+        </div>
+      </div>
+    );
+  }
+
+  // Default: Modern template
   return (
     <div
       className={cn(
@@ -51,6 +75,7 @@ export default function ResumePreview({
     </div>
   );
 }
+
 
 interface ResumeSectionProps {
   resumeData: ResumeValues;
