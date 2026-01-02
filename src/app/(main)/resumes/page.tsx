@@ -8,7 +8,8 @@ import ResumeItem from "./ResumeItem";
 import { FileText, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Your resumes",
+  title: "My Resumes",
+  description: "Manage your resumes and create new ones.",
 };
 
 export default async function Page() {

@@ -9,11 +9,55 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - AI Resume Builder",
-    absolute: "AI Resume Builder",
+    default: "NextGen Resume - AI Powered Resume Builder",
+    template: "%s | NextGen Resume",
   },
   description:
-    "AI Resume Builder is the easiest way to create a professional resume that will help you land your dream job.",
+    "Create professional, ATS-friendly resumes in minutes with our AI-powered builder. Free templates, real-time preview, and PDF export.",
+  applicationName: "NextGen Resume",
+  authors: [{ name: "NextGen Resume" }],
+  generator: "Next.js",
+  keywords: [
+    "resume builder",
+    "AI resume builder",
+    "CV maker",
+    "resume templates",
+    "job search",
+    "career",
+    "professional resume",
+    "free resume builder",
+    "ATS friendly resume",
+  ],
+  creator: "NextGen Resume",
+  publisher: "NextGen Resume",
+  metadataBase: new URL("https://nextgen-resume.vercel.app"),
+  openGraph: {
+    title: "NextGen Resume - AI Powered Resume Builder",
+    description:
+      "Create professional, ATS-friendly resumes in minutes with our AI-powered builder. Free templates, real-time preview, and PDF export.",
+    url: "https://nextgen-resume.vercel.app",
+    siteName: "NextGen Resume",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "NextGen Resume Preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NextGen Resume - AI Powered Resume Builder",
+    description: "Build your dream resume with AI assistance.",
+    images: ["/opengraph-image.png"],
+    creator: "@NextGenResume",
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
