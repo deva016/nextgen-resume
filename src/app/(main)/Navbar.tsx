@@ -32,6 +32,12 @@ export default function Navbar() {
           >
             Home
           </Link>
+          <Link 
+            href="/blog" 
+            className="text-sm text-gray-400 hover:text-white transition-colors"
+          >
+            Blog
+          </Link>
           <UserButton
             appearance={{
               baseTheme: dark,

@@ -45,6 +45,9 @@ export default async function Home() {
             <Link href="#how-it-works" className="text-sm text-gray-400 hover:text-white transition-colors">
               How it Works
             </Link>
+            <Link href="/blog" className="text-sm text-gray-400 hover:text-white transition-colors">
+              Blog
+            </Link>
             <Link href="/tos" className="text-sm text-gray-400 hover:text-white transition-colors">
               Terms
             </Link>
