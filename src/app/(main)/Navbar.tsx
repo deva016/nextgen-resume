@@ -39,7 +39,7 @@ export default function Navbar() {
             Blog
           </Link>
           <Link 
-            href="/resumes" 
+            href="/check-ats" 
             className="text-sm text-gray-400 hover:text-white transition-colors"
           >
             Check ATS Score
