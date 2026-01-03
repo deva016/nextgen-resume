@@ -21,7 +21,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ResumeServerData } from "@/lib/types";
 import { mapToResumeValues } from "@/lib/utils";
 import { formatDate } from "date-fns";
-import { MoreVertical, Printer, Trash2 } from "lucide-react";
+import { MoreVertical, Printer, Trash2, BarChart3 } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState, useTransition } from "react";
 import { useReactToPrint } from "react-to-print";
@@ -97,12 +97,11 @@ function MoreMenu({ resumeId, onPrintClick }: MoreMenuProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="border-white/10 bg-[#1a1a2f] text-white">
-          <DropdownMenuItem
-            className="flex items-center gap-2 text-red-400 focus:text-red-400 focus:bg-red-500/10"
-            onClick={() => setShowDeleteConfirmation(true)}
-          >
-            <Trash2 className="size-4" />
-            Delete
+          <DropdownMenuItem className="flex items-center gap-2 focus:bg-white/10" asChild>
+            <Link href={`/resumes/${resumeId}/ats`}>
+              <BarChart3 className="size-4" />
+              Check ATS Score
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem
             className="flex items-center gap-2 focus:bg-white/10"
@@ -110,6 +109,13 @@ function MoreMenu({ resumeId, onPrintClick }: MoreMenuProps) {
           >
             <Printer className="size-4" />
             Print / Export PDF
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="flex items-center gap-2 text-red-400 focus:text-red-400 focus:bg-red-500/10"
+            onClick={() => setShowDeleteConfirmation(true)}
+          >
+            <Trash2 className="size-4" />
+            Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

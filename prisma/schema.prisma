@@ -41,11 +41,34 @@ model Resume {
   skills          String[]
   strengths       String[]
   languages       String[]
+  atsScore        ATSScore?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("resumes")
+}
+
+model ATSScore {
+  id       String @id @default(cuid())
+  resumeId String @unique
+  resume   Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  overallScore    Int // 0-100
+  keywordScore    Int // 0-100
+  formattingScore Int // 0-100
+  contentScore    Int // 0-100
+
+  suggestions     String[] // Array of improvement suggestions
+  matchedKeywords String[]
+  missingKeywords String[]
+
+  jobDescription String? // Optional job description for matching
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ats_scores")
 }
 
 model WorkExperience {
