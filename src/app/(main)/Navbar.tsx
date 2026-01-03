@@ -38,6 +38,12 @@ export default function Navbar() {
           >
             Blog
           </Link>
+          <Link 
+            href="/resumes" 
+            className="text-sm text-gray-400 hover:text-white transition-colors"
+          >
+            Check ATS Score
+          </Link>
           <UserButton
             appearance={{
               baseTheme: dark,
