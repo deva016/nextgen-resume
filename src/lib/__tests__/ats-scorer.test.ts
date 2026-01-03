@@ -260,9 +260,7 @@ describe("ATS Scorer", () => {
 
       const result = calculateATSScore(perfectResume);
 
-      const hasPositiveFeedback = result.suggestions.some(
-        (s) => s.includes("Great job") || s.includes("ATS-compatible")
-      );
+      // Just check that score is reasonable for a good resume
       expect(result.overallScore).toBeGreaterThanOrEqual(60);
     });
 

@@ -5,5 +5,6 @@
 // const openai = new OpenAI();
 // export default openai;
 
-export default null; // Placeholder - replace with OpenAI instance when enabled
+const openaiPlaceholder = null; // Placeholder - replace with OpenAI instance when enabled
+export default openaiPlaceholder;
 
