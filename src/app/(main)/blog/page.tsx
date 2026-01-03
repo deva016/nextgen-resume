@@ -35,7 +35,7 @@ export default function BlogPage() {
             Product Updates
           </div>
           <h1 className="mb-4 text-5xl font-bold tracking-tight">
-            What's Next for{" "}
+            What&apos;s Next for{" "}
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 bg-clip-text text-transparent">
               NextGen Resume
             </span>
