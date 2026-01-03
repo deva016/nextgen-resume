@@ -30,9 +30,9 @@ NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 BLOB_READ_WRITE_TOKEN=
 
 # ==============================================
-# OPENAI API
+# GOOGLE GEMINI API
 # ==============================================
-OPENAI_API_KEY=
+GEMINI_API_KEY=
 
 # ==============================================
 # APPLICATION

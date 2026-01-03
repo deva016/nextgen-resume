@@ -36,6 +36,7 @@ import { GripHorizontal } from "lucide-react";
 import { useEffect } from "react";
 import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
 import GenerateWorkExperienceButton from "./GenerateWorkExperienceButton";
+import EnhanceTextButton from "./EnhanceTextButton";
 
 export default function WorkExperienceForm({
   resumeData,
@@ -257,7 +258,15 @@ function WorkExperienceItem({
         name={`workExperiences.${index}.description`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Description</FormLabel>
+            <div className="flex justify-between items-center">
+              <FormLabel>Description</FormLabel>
+              <EnhanceTextButton
+                text={field.value || ""}
+                onEnhanced={(text) =>
+                  form.setValue(`workExperiences.${index}.description`, text)
+                }
+              />
+            </div>
             <FormControl>
               <Textarea {...field} />
             </FormControl>

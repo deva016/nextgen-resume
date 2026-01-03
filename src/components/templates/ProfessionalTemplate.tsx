@@ -1,6 +1,13 @@
 import { ResumeValues } from "@/lib/validation";
-import { formatDate } from "date-fns";
+import { format } from "date-fns";
 import React from "react";
+
+const formatDateString = (dateString: string | undefined, formatStr: string) => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return dateString;
+  return format(date, formatStr);
+};
 
 interface ProfessionalTemplateProps {
   resumeData: ResumeValues;
@@ -122,8 +129,10 @@ export default function ProfessionalTemplate({
                   </div>
                   {exp.startDate && (
                     <span className="text-xs" style={{ color: TEAL_COLOR }}>
-                      {formatDate(exp.startDate, "MMM yyyy")} –{" "}
-                      {exp.endDate ? formatDate(exp.endDate, "MMM yyyy") : "Present"}
+                      {formatDateString(exp.startDate, "MMM yyyy")} –{" "}
+                      {exp.endDate
+                        ? formatDateString(exp.endDate, "MMM yyyy")
+                        : "Present"}
                     </span>
                   )}
                 </div>
@@ -171,8 +180,10 @@ export default function ProfessionalTemplate({
                   </div>
                   {edu.startDate && (
                     <span className="text-xs" style={{ color: TEAL_COLOR }}>
-                      {formatDate(edu.startDate, "yyyy")} –{" "}
-                      {edu.endDate ? formatDate(edu.endDate, "yyyy") : "Present"}
+                      {formatDateString(edu.startDate, "yyyy")} –{" "}
+                      {edu.endDate
+                        ? formatDateString(edu.endDate, "yyyy")
+                        : "Present"}
                     </span>
                   )}
                 </div>

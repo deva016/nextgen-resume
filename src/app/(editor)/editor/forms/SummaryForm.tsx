@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import GenerateSummaryButton from "./GenerateSummaryButton";
+import EnhanceTextButton from "./EnhanceTextButton";
 
 export default function SummaryForm({
   resumeData,
@@ -50,7 +51,13 @@ export default function SummaryForm({
             name="summary"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="sr-only">Professional summary</FormLabel>
+                <div className="flex justify-between items-center">
+                  <FormLabel>Professional summary</FormLabel>
+                  <EnhanceTextButton
+                    text={field.value || ""}
+                    onEnhanced={(text) => form.setValue("summary", text)}
+                  />
+                </div>
                 <FormControl>
                   <Textarea
                     {...field}

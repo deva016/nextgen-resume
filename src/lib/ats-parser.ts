@@ -31,9 +31,19 @@ export interface ContactInfo {
 export async function parseResumeFile(file: Buffer, fileType: "pdf" | "docx"): Promise<string> {
   try {
     if (fileType === "pdf") {
-      // For now, we'll use a simpler approach for PDF
-      // In production, consider using pdfjs-dist or pdf.js server-side
-      throw new Error("PDF parsing is currently not supported. Please upload a DOCX file or use existing resume data.");
+      // Dynamic import to avoid build-time bundling issues
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const PDFParser = require("pdf2json");
+      const parser = new PDFParser(null, 1); // 1 = text only
+
+      return new Promise((resolve, reject) => {
+        parser.on("pdfParser_dataError", (errData: { parserError: string }) => reject(new Error(errData.parserError)));
+        parser.on("pdfParser_dataReady", () => {
+          resolve(parser.getRawTextContent());
+        });
+        
+        parser.parseBuffer(file);
+      });
     } else if (fileType === "docx") {
       const result = await mammoth.extractRawText({ buffer: file });
       return result.value;

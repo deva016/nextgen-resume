@@ -112,6 +112,15 @@ Strengths: ${resume.strengths.join(", ")}
     });
   } catch (error) {
     console.error("ATS analysis error:", error);
+    
+    // Check for known errors (like unsupported file type)
+    if (error instanceof Error && (error.message.includes("not supported") || error.message.includes("Unsupported"))) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
       { error: "Failed to analyze resume" },
       { status: 500 }

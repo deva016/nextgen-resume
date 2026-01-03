@@ -146,13 +146,13 @@ export default function ATSCheckPage({ params }: ATSCheckPageProps) {
                   <input
                     id="file-upload"
                     type="file"
-                    accept=".pdf,.docx"
+                    accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     onChange={handleFileChange}
                     className="hidden"
                   />
                 </div>
                 <p className="mt-2 text-xs text-gray-500">
-                  Upload a resume file or we&apos;ll use your current resume data (Max 5MB)
+                  Upload a resume file (PDF or DOCX) or we&apos;ll use your current resume data (Max 5MB)
                 </p>
               </div>
 

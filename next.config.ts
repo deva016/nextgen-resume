@@ -13,7 +13,8 @@ const nextConfig: NextConfig = {
         hostname: "w0mlmrgwbziwquaq.public.blob.vercel-storage.com"
       }
     ]
-  }
+  },
+  serverExternalPackages: ["pdf2json"],
 };
 
 export default nextConfig;
