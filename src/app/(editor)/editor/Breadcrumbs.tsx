@@ -20,26 +20,33 @@ export default function Breadcrumbs({
 }: BreadcrumbsProps) {
   return (
     <div className="flex justify-center">
-      <Breadcrumb>
-        <BreadcrumbList>
-          {steps.map((step) => (
-            <React.Fragment key={step.key}>
-              <BreadcrumbItem>
-                {step.key === currentStep ? (
-                  <BreadcrumbPage>{step.title}</BreadcrumbPage>
-                ) : (
-                  <BreadcrumbLink asChild>
-                    <button onClick={() => setCurrentStep(step.key)}>
+      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 backdrop-blur-xl">
+        <Breadcrumb>
+          <BreadcrumbList>
+            {steps.map((step) => (
+              <React.Fragment key={step.key}>
+                <BreadcrumbItem>
+                  {step.key === currentStep ? (
+                    <BreadcrumbPage className="bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 bg-clip-text font-semibold text-transparent">
                       {step.title}
-                    </button>
-                  </BreadcrumbLink>
-                )}
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="last:hidden" />
-            </React.Fragment>
-          ))}
-        </BreadcrumbList>
-      </Breadcrumb>
+                    </BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink asChild>
+                      <button 
+                        onClick={() => setCurrentStep(step.key)}
+                        className="text-gray-400 transition-colors hover:text-white"
+                      >
+                        {step.title}
+                      </button>
+                    </BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="text-gray-600 last:hidden" />
+              </React.Fragment>
+            ))}
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
     </div>
   );
 }

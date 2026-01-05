@@ -33,6 +33,12 @@ export default function Navbar() {
             Home
           </Link>
           <Link 
+            href="/dashboard" 
+            className="text-sm text-gray-400 hover:text-white transition-colors"
+          >
+            Dashboard
+          </Link>
+          <Link 
             href="/blog" 
             className="text-sm text-gray-400 hover:text-white transition-colors"
           >

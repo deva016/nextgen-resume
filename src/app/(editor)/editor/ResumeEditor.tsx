@@ -43,18 +43,11 @@ export default function ResumeEditor({ resumeToEdit }: ResumeEditorProps) {
 
   return (
     <div className="flex grow flex-col">
-      <header className="space-y-1.5 border-b px-3 py-5 text-center">
-        <h1 className="text-2xl font-bold">Design your resume</h1>
-        <p className="text-sm text-muted-foreground">
-          Follow the steps below to create your resume. Your progress will be
-          saved automatically.
-        </p>
-      </header>
       <main className="relative grow">
         <div className="absolute bottom-0 top-0 flex w-full">
           <div
             className={cn(
-              "w-full space-y-6 overflow-y-auto p-3 md:block md:w-1/2",
+              "w-full space-y-6 overflow-y-auto border-r border-white/10 bg-[#0a0a0f] p-6 md:block md:w-1/2",
               showSmResumePreview && "hidden",
             )}
           >
@@ -66,7 +59,6 @@ export default function ResumeEditor({ resumeToEdit }: ResumeEditorProps) {
               />
             )}
           </div>
-          <div className="grow md:border-r" />
           <ResumePreviewSection
             resumeData={resumeData}
             setResumeData={setResumeData}
