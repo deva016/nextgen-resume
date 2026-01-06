@@ -110,7 +110,10 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error("Job recommendations error:", error);
     return NextResponse.json(
-      { error: "Failed to get job recommendations" },
+      { 
+        error: "Failed to get job recommendations",
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }

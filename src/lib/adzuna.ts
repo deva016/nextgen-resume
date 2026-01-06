@@ -248,9 +248,15 @@ export function extractKeywordsFromText(text: string): string[] {
     "the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for",
     "of", "with", "by", "from", "up", "about", "into", "through", "during",
     "is", "are", "was", "were", "be", "been", "being", "have", "has", "had",
+    "will", "would", "should", "could", "can", "may", "might", "must",
+    // HTML tags often left in text
+    "p", "li", "ul", "ol", "br", "div", "span", "strong", "em", "b", "i", "u",
   ]);
 
-  const words = text
+  // Strip HTML tags
+  const plainText = text.replace(/<[^>]*>/g, " ");
+
+  const words = plainText
     .toLowerCase()
     .replace(/[^\w\s]/g, " ")
     .split(/\s+/)
