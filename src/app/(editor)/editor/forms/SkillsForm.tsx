@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import RichTextEditor from "@/components/editor/RichTextEditor";
 import { EditorFormProps } from "@/lib/types";
 import { skillsSchema, SkillsValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,6 +23,7 @@ export default function SkillsForm({
     resolver: zodResolver(skillsSchema),
     defaultValues: {
       skills: resumeData.skills || [],
+      skillsDescription: resumeData.skillsDescription || "",
     },
   });
 
@@ -36,6 +38,7 @@ export default function SkillsForm({
             ?.filter((skill) => skill !== undefined)
             .map((skill) => skill.trim())
             .filter((skill) => skill !== "") || [],
+        skillsDescription: values.skillsDescription,
       });
     });
     return unsubscribe;
@@ -49,6 +52,23 @@ export default function SkillsForm({
       </div>
       <Form {...form}>
         <form className="space-y-3">
+          <FormField
+            control={form.control}
+            name="skillsDescription"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Skills Overview (Optional)</FormLabel>
+                <FormControl>
+                  <RichTextEditor
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    placeholder="Add a brief description of your technical skills and expertise..."
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="skills"

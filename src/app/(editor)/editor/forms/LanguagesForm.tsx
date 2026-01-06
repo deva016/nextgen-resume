@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import RichTextEditor from "@/components/editor/RichTextEditor";
 import { EditorFormProps } from "@/lib/types";
 import { languagesSchema, LanguagesValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +25,7 @@ export default function LanguagesForm({
     resolver: zodResolver(languagesSchema),
     defaultValues: {
       languages: resumeData.languages || [],
+      languagesDescription: resumeData.languagesDescription || "",
     },
   });
 
@@ -38,6 +40,7 @@ export default function LanguagesForm({
             ?.filter((language) => language !== undefined)
             .map((language) => language.trim())
             .filter((language) => language !== "") || [],
+        languagesDescription: values.languagesDescription,
       });
     });
     return unsubscribe;
@@ -51,6 +54,23 @@ export default function LanguagesForm({
       </div>
       <Form {...form}>
         <form className="space-y-3">
+          <FormField
+            control={form.control}
+            name="languagesDescription"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Languages Overview (Optional)</FormLabel>
+                <FormControl>
+                  <RichTextEditor
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    placeholder="Describe your language proficiency and communication skills..."
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="languages"

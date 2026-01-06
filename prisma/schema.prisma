@@ -39,8 +39,11 @@ model Resume {
   projects        Project[]
   certifications  Certification[]
   skills          String[]
+  skillsDescription String?
   strengths       String[]
+  strengthsDescription String?
   languages       String[]
+  languagesDescription String?
   atsScore        ATSScore?
   jobRecommendations JobRecommendation[]
 

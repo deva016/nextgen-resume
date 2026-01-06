@@ -285,9 +285,9 @@ function EducationSection({ resumeData }: ResumeSectionProps) {
 }
 
 function SkillsSection({ resumeData }: ResumeSectionProps) {
-  const { skills, colorHex, borderStyle } = resumeData;
+  const { skills, skillsDescription, colorHex, borderStyle } = resumeData;
 
-  if (!skills?.length) return null;
+  if (!skills?.length && !skillsDescription) return null;
 
   return (
     <>
@@ -306,7 +306,11 @@ function SkillsSection({ resumeData }: ResumeSectionProps) {
         >
           Skills
         </p>
-        <div className="flex break-inside-avoid flex-wrap gap-2">
+        {skillsDescription && (
+          <RenderHtml html={skillsDescription} className="text-sm" />
+        )}
+        {skills && skills.length > 0 && (
+          <div className="flex break-inside-avoid flex-wrap gap-2">
           {skills.map((skill, index) => (
             <Badge
               key={index}
@@ -324,7 +328,8 @@ function SkillsSection({ resumeData }: ResumeSectionProps) {
               {skill}
             </Badge>
           ))}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );
@@ -428,9 +433,9 @@ function CertificationsSection({ resumeData }: ResumeSectionProps) {
 }
 
 function StrengthsSection({ resumeData }: ResumeSectionProps) {
-  const { strengths, colorHex, borderStyle } = resumeData;
+  const { strengths, strengthsDescription, colorHex, borderStyle } = resumeData;
 
-  if (!strengths?.length) return null;
+  if (!strengths?.length && !strengthsDescription) return null;
 
   return (
     <>
@@ -449,7 +454,11 @@ function StrengthsSection({ resumeData }: ResumeSectionProps) {
         >
           Strengths
         </p>
-        <div className="flex break-inside-avoid flex-wrap gap-2">
+        {strengthsDescription && (
+          <RenderHtml html={strengthsDescription} className="text-sm" />
+        )}
+        {strengths && strengths.length > 0 && (
+          <div className="flex break-inside-avoid flex-wrap gap-2">
           {strengths.map((strength, index) => (
             <Badge
               key={index}
@@ -467,16 +476,17 @@ function StrengthsSection({ resumeData }: ResumeSectionProps) {
               {strength}
             </Badge>
           ))}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );
 }
 
 function LanguagesSection({ resumeData }: ResumeSectionProps) {
-  const { languages, colorHex, borderStyle } = resumeData;
+  const { languages, languagesDescription, colorHex, borderStyle } = resumeData;
 
-  if (!languages?.length) return null;
+  if (!languages?.length && !languagesDescription) return null;
 
   return (
     <>
@@ -495,7 +505,11 @@ function LanguagesSection({ resumeData }: ResumeSectionProps) {
         >
           Languages
         </p>
-        <div className="flex break-inside-avoid flex-wrap gap-2">
+        {languagesDescription && (
+          <RenderHtml html={languagesDescription} className="text-sm" />
+        )}
+        {languages && languages.length > 0 && (
+          <div className="flex break-inside-avoid flex-wrap gap-2">
           {languages.map((language, index) => (
             <Badge
               key={index}
@@ -513,7 +527,8 @@ function LanguagesSection({ resumeData }: ResumeSectionProps) {
               {language}
             </Badge>
           ))}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );

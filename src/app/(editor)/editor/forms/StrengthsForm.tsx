@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import RichTextEditor from "@/components/editor/RichTextEditor";
 import { EditorFormProps } from "@/lib/types";
 import { strengthsSchema, StrengthsValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +25,7 @@ export default function StrengthsForm({
     resolver: zodResolver(strengthsSchema),
     defaultValues: {
       strengths: resumeData.strengths || [],
+      strengthsDescription: resumeData.strengthsDescription || "",
     },
   });
 
@@ -38,6 +40,7 @@ export default function StrengthsForm({
             ?.filter((strength) => strength !== undefined)
             .map((strength) => strength.trim())
             .filter((strength) => strength !== "") || [],
+        strengthsDescription: values.strengthsDescription,
       });
     });
     return unsubscribe;
@@ -51,6 +54,23 @@ export default function StrengthsForm({
       </div>
       <Form {...form}>
         <form className="space-y-3">
+          <FormField
+            control={form.control}
+            name="strengthsDescription"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Strengths Overview (Optional)</FormLabel>
+                <FormControl>
+                  <RichTextEditor
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    placeholder="Describe your key personal and professional strengths..."
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="strengths"
