@@ -68,8 +68,38 @@ export default function JobRecommendationsSection({ resumeId }: JobRecommendatio
     );
   }
 
-  if (error || recommendations.length === 0) {
-    return null; // Don't show section if no recommendations
+  if (error) {
+    return (
+      <div className="space-y-4">
+        <h2 className="flex items-center gap-2 text-xl font-semibold text-white">
+          <Briefcase className="h-5 w-5 text-purple-400" />
+          Recommended Jobs
+        </h2>
+        <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-6 text-center">
+          <p className="text-red-400">{error}</p>
+          <p className="mt-2 text-sm text-gray-400">
+            Job recommendations are temporarily unavailable. Please check back later.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (recommendations.length === 0) {
+    return (
+      <div className="space-y-4">
+        <h2 className="flex items-center gap-2 text-xl font-semibold text-white">
+          <Briefcase className="h-5 w-5 text-purple-400" />
+          Recommended Jobs
+        </h2>
+        <div className="rounded-xl border border-white/10 bg-white/5 p-6 text-center">
+          <p className="text-gray-400">No job recommendations available yet.</p>
+          <p className="mt-2 text-sm text-gray-500">
+            Complete your resume to get personalized job matches.
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (
