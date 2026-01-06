@@ -42,11 +42,49 @@ model Resume {
   strengths       String[]
   languages       String[]
   atsScore        ATSScore?
+  jobRecommendations JobRecommendation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("resumes")
+}
+
+model JobRecommendation {
+  id       String   @id @default(cuid())
+  userId   String
+  resumeId String
+  resume   Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  // Job details (cached from API)
+  jobId          String // External API job ID
+  title          String
+  company        String
+  location       String
+  salary         String?
+  description    String @db.Text
+  url            String
+  postedDate     DateTime
+  contractType   String
+  category       String?
+
+  // Matching metadata  
+  matchScore     Int // 0-100
+  matchReasons   String[]
+  keywordMatches String[]
+  missingKeywords String[]
+
+  // User interaction
+  viewed  Boolean @default(false)
+  saved   Boolean @default(false)
+  applied Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("job_recommendations")
+  @@index([userId, resumeId])
+  @@index([matchScore])
 }
 
 model ATSScore {

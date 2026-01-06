@@ -35,6 +35,13 @@ BLOB_READ_WRITE_TOKEN=
 GEMINI_API_KEY=
 
 # ==============================================
+# ADZUNA JOB SEARCH API
+# ==============================================
+# Sign up at https://developer.adzuna.com/
+ADZUNA_APP_ID=
+ADZUNA_APP_KEY=
+
+# ==============================================
 # APPLICATION
 # ==============================================
 NEXT_PUBLIC_BASE_URL=http://localhost:3000

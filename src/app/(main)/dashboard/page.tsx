@@ -1,12 +1,13 @@
 import { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
-import { FileText, BarChart3, Plus, ArrowRight } from "lucide-react";
+import { FileText, BarChart3, Plus } from "lucide-react";
 import prisma from "@/lib/prisma";
 import StatsCard from "@/components/dashboard/StatsCard";
 import ResumeCard from "@/components/dashboard/ResumeCard";
 import EmptyState from "@/components/dashboard/EmptyState";
 import { Button } from "@/components/ui/button";
+import JobRecommendationsSection from "./JobRecommendationsSection";
 
 export const metadata: Metadata = {
   title: "Dashboard - NextGen Resume",
@@ -113,53 +114,68 @@ export default async function DashboardPage() {
           </div>
 
           {/* Recent Resumes */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">Recent Resumes</h2>
-              {totalResumes > 5 && (
-                <Button asChild variant="ghost" className="text-purple-400">
-                  <Link href="/resumes">
-                    View All
-                    <ArrowRight className="ml-2 size-4" />
-                  </Link>
-                </Button>
+          <div>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-white">Recent Resumes</h2>
+              {resumes.length > 5 && (
+                <Link
+                  href="/resumes"
+                  className="text-sm text-purple-400 transition-colors hover:text-purple-300"
+                >
+                  View All →
+                </Link>
               )}
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {resumes.map((resume) => (
-                <ResumeCard key={resume.id} resume={resume} />
+                <ResumeCard
+                  key={resume.id}
+                  resume={{
+                    id: resume.id,
+                    title: resume.title,
+                    updatedAt: resume.updatedAt,
+                    atsScore: resume.atsScore
+                      ? { overallScore: resume.atsScore.overallScore }
+                      : null,
+                  }}
+                />
               ))}
             </div>
           </div>
 
-          {/* Quick Actions */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
-            <h2 className="mb-4 text-xl font-bold text-white">Quick Actions</h2>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="justify-start border-white/10 bg-white/5 hover:bg-white/10"
-              >
-                <Link href="/editor">
-                  <Plus className="mr-2 size-4" />
-                  Create New Resume
-                </Link>
-              </Button>
+          {/* Job Recommendations - Show if user has resumes */}
+          {resumes.length > 0 && <JobRecommendationsSection resumeId={resumes[0].id} />}
 
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="justify-start border-white/10 bg-white/5 hover:bg-white/10"
+          {/* Quick Actions */}
+          <div>
+            <h2 className="mb-4 text-xl font-semibold text-white">Quick Actions</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Link
+                href="/editor"
+                className="group rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition-all hover:bg-white/10"
               >
-                <Link href="/check-ats">
-                  <BarChart3 className="mr-2 size-4" />
-                  Check ATS Score
-                </Link>
-              </Button>
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r from-purple-600 to-pink-600">
+                  <Plus className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="mb-1 font-semibold text-white">Create New Resume</h3>
+                <p className="text-sm text-gray-400">
+                  Start building a professional resume
+                </p>
+              </Link>
+
+              <Link
+                href="/check-ats"
+                className="group rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition-all hover:bg-white/10"
+              >
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r from-orange-600 to-red-600">
+                  <BarChart3 className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="mb-1 font-semibold text-white">Check ATS Score</h3>
+                <p className="text-sm text-gray-400">
+                  Analyze resume compatibility
+                </p>
+              </Link>
             </div>
           </div>
         </>
