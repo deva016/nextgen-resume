@@ -65,7 +65,7 @@ describe("POST /api/ats/analyze", () => {
   });
 
   it("should return 401 if not authenticated", async () => {
-    (auth as jest.Mock).mockResolvedValue({ userId: null });
+    (auth as unknown as jest.Mock).mockResolvedValue({ userId: null });
     const req = createMockRequest({});
 
     const response = await POST(req);
@@ -75,19 +75,19 @@ describe("POST /api/ats/analyze", () => {
     expect(data.error).toBe("Unauthorized");
   });
 
-  it("should return 400 if resumeId is missing", async () => {
-    (auth as jest.Mock).mockResolvedValue({ userId: "user_123" });
+  it("should return 400 if both resumeId and file are missing", async () => {
+    (auth as unknown as jest.Mock).mockResolvedValue({ userId: "user_123" });
     const req = createMockRequest({});
 
     const response = await POST(req);
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data.error).toBe("Resume ID is required");
+    expect(data.error).toBe("Either file or resumeId is required");
   });
 
   it("should return 404 if resume not found", async () => {
-    (auth as jest.Mock).mockResolvedValue({ userId: "user_123" });
+    (auth as unknown as jest.Mock).mockResolvedValue({ userId: "user_123" });
     const req = createMockRequest({ resumeId: "resume_123" });
 
     (prisma.resume.findUnique as jest.Mock).mockResolvedValue(null);
@@ -100,7 +100,7 @@ describe("POST /api/ats/analyze", () => {
   });
 
   it("should handle error with unsupported file type (TXT)", async () => {
-    (auth as jest.Mock).mockResolvedValue({ userId: "user_123" });
+    (auth as unknown as jest.Mock).mockResolvedValue({ userId: "user_123" });
     
     // Mock file upload
     const file = new MockFile(["fake txt content"], "resume.txt", { type: "text/plain" });
@@ -125,8 +125,8 @@ describe("POST /api/ats/analyze", () => {
     consoleSpy.mockRestore();
   });
 
-  it("should successfully analyze resume with file upload (DOCX)", async () => {
-    (auth as jest.Mock).mockResolvedValue({ userId: "user_123" });
+  it("should successfully analyze resume with file upload and resumeId (DOCX)", async () => {
+    (auth as unknown as jest.Mock).mockResolvedValue({ userId: "user_123" });
     
     const file = new MockFile(["fake docx content"], "resume.docx", { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
     const req = createMockRequest({
@@ -172,5 +172,91 @@ describe("POST /api/ats/analyze", () => {
     expect(data.atsScore.overallScore).toBe(80);
     expect(parseResume).toHaveBeenCalled();
     expect(calculateATSScore).toHaveBeenCalled();
+    expect(prisma.aTSScore.upsert).toHaveBeenCalled(); // Should save to DB
+  });
+
+  it("should successfully analyze file upload WITHOUT resumeId (navbar flow)", async () => {
+    (auth as unknown as jest.Mock).mockResolvedValue({ userId: "user_123" });
+    
+    const file = new MockFile(["fake pdf content"], "resume.pdf", { type: "application/pdf" });
+    const req = createMockRequest({
+      file: file,
+      // NO resumeId - this is the navbar upload flow
+    });
+    
+    // Mock parser response
+    const mockParsedResume = {
+      text: "Parsed resume text",
+      sections: [],
+      contactInfo: {},
+      keywords: ["javascript", "react"],
+      metrics: [],
+    };
+    (parseResume as jest.Mock).mockResolvedValue(mockParsedResume);
+    
+    // Mock scorer response
+    const mockScore = {
+      overallScore: 75,
+      keywordScore: 80,
+      formattingScore: 70,
+      contentScore: 75,
+      suggestions: ["Add more metrics"],
+      matchedKeywords: ["javascript"],
+      missingKeywords: ["typescript"],
+    };
+    (calculateATSScore as jest.Mock).mockReturnValue(mockScore);
+    
+    // Mock AI suggestions
+    (getAISuggestions as jest.Mock).mockResolvedValue(["Consider adding certifications"]);
+
+    const response = await POST(req);
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.success).toBe(true);
+    expect(data.atsScore.overallScore).toBe(75);
+    expect(parseResume).toHaveBeenCalledWith(expect.any(Buffer), "pdf");
+    expect(calculateATSScore).toHaveBeenCalled();
+    
+    // CRITICAL: Should NOT save to database when no resumeId
+    expect(prisma.aTSScore.upsert).not.toHaveBeenCalled();
+  });
+
+  it("should include job description in analysis when provided (navbar flow)", async () => {
+    (auth as unknown as jest.Mock).mockResolvedValue({ userId: "user_123" });
+    
+    const file = new MockFile(["resume content"], "resume.pdf", { type: "application/pdf" });
+    const jobDesc = "Looking for React developer with 5+ years experience";
+    const req = createMockRequest({
+      file: file,
+      jobDescription: jobDesc,
+    });
+    
+    const mockParsedResume = {
+      text: "Resume text",
+      sections: [],
+      contactInfo: {},
+      keywords: [],
+      metrics: [],
+    };
+    (parseResume as jest.Mock).mockResolvedValue(mockParsedResume);
+    
+    const mockScore = {
+      overallScore: 70,
+      keywordScore: 75,
+      formattingScore: 65,
+      contentScore: 70,
+      suggestions: [],
+      matchedKeywords: ["React"],
+      missingKeywords: ["5+ years"],
+    };
+    (calculateATSScore as jest.Mock).mockReturnValue(mockScore);
+    (getAISuggestions as jest.Mock).mockResolvedValue([]);
+
+    const response = await POST(req);
+
+    expect(response.status).toBe(200);
+    expect(calculateATSScore).toHaveBeenCalledWith(mockParsedResume, jobDesc);
+    expect(getAISuggestions).toHaveBeenCalledWith("Resume text", jobDesc);
   });
 });
