@@ -23,7 +23,7 @@ export const steps: {
     key: "work-experience",
   },
   { title: "Education", component: EducationForm, key: "education" },
-  { title: "Projects", component: ProjectsForm, key: "projects" },
+  { title: "About Projects", component: ProjectsForm, key: "projects" },
   { title: "Certifications", component: CertificationsForm, key: "certifications" },
   { title: "Skills", component: SkillsForm, key: "skills" },
   { title: "Strengths", component: StrengthsForm, key: "strengths" },

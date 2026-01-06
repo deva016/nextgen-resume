@@ -1,6 +1,7 @@
 import { ResumeValues } from "@/lib/validation";
 import { format } from "date-fns";
 import React from "react";
+import { RenderHtml } from "@/lib/html";
 
 const formatDateString = (dateString: string | undefined, formatStr: string) => {
   if (!dateString) return "";
@@ -69,7 +70,7 @@ export default function ProfessionalTemplate({
       {/* Professional Summary */}
       {summary && (
         <Section title="Professional Summary">
-          <p className="text-justify">{summary}</p>
+          <RenderHtml html={summary} className="text-justify" />
         </Section>
       )}
 
@@ -100,11 +101,10 @@ export default function ProfessionalTemplate({
                   )}
                 </div>
                 {project.description && (
-                  <ul className="list-disc list-inside ml-2 text-gray-700">
-                    {project.description.split("\n").map((line, i) => (
-                      <li key={i}>{line}</li>
-                    ))}
-                  </ul>
+                  <RenderHtml
+                    html={project.description}
+                    className="ml-2 text-gray-700"
+                  />
                 )}
                 {project.link && (
                   <p className="text-xs text-blue-600 ml-2">{project.link}</p>
@@ -137,11 +137,10 @@ export default function ProfessionalTemplate({
                   )}
                 </div>
                 {exp.description && (
-                  <ul className="list-disc list-inside ml-2 text-gray-700">
-                    {exp.description.split("\n").map((line, i) => (
-                      <li key={i}>{line}</li>
-                    ))}
-                  </ul>
+                  <RenderHtml
+                    html={exp.description}
+                    className="ml-2 text-gray-700"
+                  />
                 )}
               </div>
             ))}

@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import RichTextEditor from "@/components/editor/RichTextEditor";
 import { EditorFormProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { projectSchema, ProjectValues } from "@/lib/validation";
@@ -87,7 +87,7 @@ export default function ProjectsForm({
   return (
     <div className="mx-auto max-w-xl space-y-6">
       <div className="space-y-1.5 text-center">
-        <h2 className="text-2xl font-semibold">Projects</h2>
+        <h2 className="text-2xl font-semibold">About Projects</h2>
         <p className="text-sm text-muted-foreground">
           Showcase your best work and personal projects.
         </p>
@@ -193,9 +193,10 @@ function ProjectItem({ id, form, index, remove }: ProjectItemProps) {
           <FormItem>
             <FormLabel>About Project</FormLabel>
             <FormControl>
-              <Textarea
-                {...field}
-                placeholder="Describe what you built and the technologies used..."
+              <RichTextEditor
+                value={field.value || ""}
+                onChange={field.onChange}
+                placeholder="Describe what you built, the technologies used, and the impact..."
               />
             </FormControl>
             <FormMessage />

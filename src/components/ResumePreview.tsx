@@ -7,6 +7,7 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { Badge } from "./ui/badge";
 import ProfessionalTemplate from "./templates/ProfessionalTemplate";
+import { RenderHtml } from "@/lib/html";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
@@ -176,7 +177,7 @@ function SummarySection({ resumeData }: ResumeSectionProps) {
         >
           Professional profile
         </p>
-        <div className="whitespace-pre-line text-sm">{summary}</div>
+        <RenderHtml html={summary} className="text-sm" />
       </div>
     </>
   );
@@ -225,7 +226,7 @@ function WorkExperienceSection({ resumeData }: ResumeSectionProps) {
               )}
             </div>
             <p className="text-xs font-semibold">{exp.company}</p>
-            <div className="whitespace-pre-line text-xs">{exp.description}</div>
+            <RenderHtml html={exp.description || ""} className="text-xs" />
           </div>
         ))}
       </div>
@@ -367,7 +368,7 @@ function ProjectsSection({ resumeData }: ResumeSectionProps) {
               {proj.year && <span>{proj.year}</span>}
             </div>
             {proj.description && (
-              <div className="whitespace-pre-line text-xs">{proj.description}</div>
+              <RenderHtml html={proj.description} className="text-xs" />
             )}
             {proj.link && (
               <p className="text-xs text-blue-600 underline">{proj.link}</p>

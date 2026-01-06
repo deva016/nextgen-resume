@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import RichTextEditor from "@/components/editor/RichTextEditor";
 import { EditorFormProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { workExperienceSchema, WorkExperienceValues } from "@/lib/validation";
@@ -268,7 +268,11 @@ function WorkExperienceItem({
               />
             </div>
             <FormControl>
-              <Textarea {...field} />
+              <RichTextEditor
+                value={field.value || ""}
+                onChange={field.onChange}
+                placeholder="Describe your responsibilities and achievements..."
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

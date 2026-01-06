@@ -6,7 +6,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
+import RichTextEditor from "@/components/editor/RichTextEditor";
 import { EditorFormProps } from "@/lib/types";
 import { summarySchema, SummaryValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -59,9 +59,10 @@ export default function SummaryForm({
                   />
                 </div>
                 <FormControl>
-                  <Textarea
-                    {...field}
-                    placeholder="A brief, engaging text about yourself"
+                  <RichTextEditor
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    placeholder="A brief, engaging text about yourself and your career highlights..."
                   />
                 </FormControl>
                 <FormMessage />
