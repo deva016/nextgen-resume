@@ -147,16 +147,25 @@ export async function searchJobs(
     }
 
     // Build search query
-    const query = keywords.join(" ");
+    let query = keywords.join(" ");
+    
+    // Fallback: If keywords extraction results in nothing, try a generic search
+    if (!query || query.trim().length === 0) {
+      query = options.location ? "" : "Job"; // Search for "Job" if no keywords and no location
+    }
+
     const page = options.page || 1;
     const resultsPerPage = options.resultsPerPage || 20;
 
     // Build API params
     const params: Record<string, string | number> = {
-      what: query,
       results_per_page: resultsPerPage,
       page,
     };
+
+    if (query) {
+      params.what = query;
+    }
 
     if (options.location) {
       params.where = options.location;
@@ -189,9 +198,9 @@ export async function searchJobs(
     const response = await fetch(url);
 
     if (!response.ok) {
-      const error = await response.text();
-      console.error("Adzuna API error:", error);
-      throw new Error(`Adzuna API error: ${response.status}`);
+      const apiErrorText = await response.text();
+      console.error("Adzuna API raw error:", apiErrorText);
+      throw new Error(`Adzuna API error ${response.status}: ${apiErrorText || 'Bad Request'}`);
     }
 
     const data: AdzunaResponse = await response.json();
