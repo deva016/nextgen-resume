@@ -50,9 +50,9 @@ ${resume.city}, ${resume.country}
 
 ${resume.summary || ""}
 
-Skills: ${resume.skills.join(", ")}
-Languages: ${resume.languages.join(", ")}
-Strengths: ${resume.strengths.join(", ")}
+${resume.skills || ""}
+${resume.languages || ""}
+${resume.strengths || ""}
       `.trim();
 
       parsedResume = {
@@ -63,7 +63,7 @@ Strengths: ${resume.strengths.join(", ")}
           phone: resume.phone || undefined,
           name: `${resume.firstName} ${resume.lastName}`,
         },
-        keywords: resume.skills.map((s) => s.toLowerCase()),
+        keywords: resumeText.toLowerCase().split(/\s+/).filter(w => w.length > 3).slice(0, 50),
         metrics: [],
       };
     } else {

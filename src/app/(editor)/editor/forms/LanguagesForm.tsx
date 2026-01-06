@@ -3,13 +3,11 @@
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
 import RichTextEditor from "@/components/editor/RichTextEditor";
 import { EditorFormProps } from "@/lib/types";
 import { languagesSchema, LanguagesValues } from "@/lib/validation";
@@ -24,8 +22,7 @@ export default function LanguagesForm({
   const form = useForm<LanguagesValues>({
     resolver: zodResolver(languagesSchema),
     defaultValues: {
-      languages: resumeData.languages || [],
-      languagesDescription: resumeData.languagesDescription || "",
+      languages: resumeData.languages || "",
     },
   });
 
@@ -33,15 +30,7 @@ export default function LanguagesForm({
     const { unsubscribe } = form.watch(async (values) => {
       const isValid = await form.trigger();
       if (!isValid) return;
-      setResumeData({
-        ...resumeData,
-        languages:
-          values.languages
-            ?.filter((language) => language !== undefined)
-            .map((language) => language.trim())
-            .filter((language) => language !== "") || [],
-        languagesDescription: values.languagesDescription,
-      });
+      setResumeData({ ...resumeData, ...values });
     });
     return unsubscribe;
   }, [form, resumeData, setResumeData]);
@@ -56,40 +45,17 @@ export default function LanguagesForm({
         <form className="space-y-3">
           <FormField
             control={form.control}
-            name="languagesDescription"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Languages Overview (Optional)</FormLabel>
-                <FormControl>
-                  <RichTextEditor
-                    value={field.value || ""}
-                    onChange={field.onChange}
-                    placeholder="Describe your language proficiency and communication skills..."
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
             name="languages"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="sr-only">Languages</FormLabel>
                 <FormControl>
-                  <Textarea
-                    {...field}
-                    placeholder="e.g. English, Hindi, Spanish, ..."
-                    onChange={(e) => {
-                      const languages = e.target.value.split(",");
-                      field.onChange(languages);
-                    }}
+                  <RichTextEditor
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    placeholder="Describe the languages you speak and your proficiency levels..."
                   />
                 </FormControl>
-                <FormDescription>
-                  Separate each language with a comma.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

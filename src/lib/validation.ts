@@ -105,22 +105,19 @@ export type Certification = NonNullable<
 >[number];
 
 export const skillsSchema = z.object({
-  skills: z.array(z.string().trim()).optional(),
-  skillsDescription: optionalString,
+  skills: optionalString,
 });
 
 export type SkillsValues = z.infer<typeof skillsSchema>;
 
 export const strengthsSchema = z.object({
-  strengths: z.array(z.string().trim()).optional(),
-  strengthsDescription: optionalString,
+  strengths: optionalString,
 });
 
 export type StrengthsValues = z.infer<typeof strengthsSchema>;
 
 export const languagesSchema = z.object({
-  languages: z.array(z.string().trim()).optional(),
-  languagesDescription: optionalString,
+  languages: optionalString,
 });
 
 export type LanguagesValues = z.infer<typeof languagesSchema>;

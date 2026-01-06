@@ -5,7 +5,6 @@ import { ResumeValues } from "@/lib/validation";
 import { formatDate } from "date-fns";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import { Badge } from "./ui/badge";
 import ProfessionalTemplate from "./templates/ProfessionalTemplate";
 import { RenderHtml } from "@/lib/html";
 
@@ -285,9 +284,9 @@ function EducationSection({ resumeData }: ResumeSectionProps) {
 }
 
 function SkillsSection({ resumeData }: ResumeSectionProps) {
-  const { skills, skillsDescription, colorHex, borderStyle } = resumeData;
+  const { skills, colorHex } = resumeData;
 
-  if (!skills?.length && !skillsDescription) return null;
+  if (!skills) return null;
 
   return (
     <>
@@ -306,30 +305,7 @@ function SkillsSection({ resumeData }: ResumeSectionProps) {
         >
           Skills
         </p>
-        {skillsDescription && (
-          <RenderHtml html={skillsDescription} className="text-sm" />
-        )}
-        {skills && skills.length > 0 && (
-          <div className="flex break-inside-avoid flex-wrap gap-2">
-          {skills.map((skill, index) => (
-            <Badge
-              key={index}
-              className="rounded-md bg-black text-white hover:bg-black"
-              style={{
-                backgroundColor: colorHex,
-                borderRadius:
-                  borderStyle === BorderStyles.SQUARE
-                    ? "0px"
-                    : borderStyle === BorderStyles.CIRCLE
-                      ? "9999px"
-                      : "8px",
-              }}
-            >
-              {skill}
-            </Badge>
-          ))}
-          </div>
-        )}
+        <RenderHtml html={skills} className="text-sm" />
       </div>
     </>
   );
@@ -433,9 +409,9 @@ function CertificationsSection({ resumeData }: ResumeSectionProps) {
 }
 
 function StrengthsSection({ resumeData }: ResumeSectionProps) {
-  const { strengths, strengthsDescription, colorHex, borderStyle } = resumeData;
+  const { strengths, colorHex } = resumeData;
 
-  if (!strengths?.length && !strengthsDescription) return null;
+  if (!strengths) return null;
 
   return (
     <>
@@ -454,39 +430,16 @@ function StrengthsSection({ resumeData }: ResumeSectionProps) {
         >
           Strengths
         </p>
-        {strengthsDescription && (
-          <RenderHtml html={strengthsDescription} className="text-sm" />
-        )}
-        {strengths && strengths.length > 0 && (
-          <div className="flex break-inside-avoid flex-wrap gap-2">
-          {strengths.map((strength, index) => (
-            <Badge
-              key={index}
-              className="rounded-md bg-black text-white hover:bg-black"
-              style={{
-                backgroundColor: colorHex,
-                borderRadius:
-                  borderStyle === BorderStyles.SQUARE
-                    ? "0px"
-                    : borderStyle === BorderStyles.CIRCLE
-                      ? "9999px"
-                      : "8px",
-              }}
-            >
-              {strength}
-            </Badge>
-          ))}
-          </div>
-        )}
+        <RenderHtml html={strengths} className="text-sm" />
       </div>
     </>
   );
 }
 
 function LanguagesSection({ resumeData }: ResumeSectionProps) {
-  const { languages, languagesDescription, colorHex, borderStyle } = resumeData;
+  const { languages, colorHex } = resumeData;
 
-  if (!languages?.length && !languagesDescription) return null;
+  if (!languages) return null;
 
   return (
     <>
@@ -505,30 +458,7 @@ function LanguagesSection({ resumeData }: ResumeSectionProps) {
         >
           Languages
         </p>
-        {languagesDescription && (
-          <RenderHtml html={languagesDescription} className="text-sm" />
-        )}
-        {languages && languages.length > 0 && (
-          <div className="flex break-inside-avoid flex-wrap gap-2">
-          {languages.map((language, index) => (
-            <Badge
-              key={index}
-              className="rounded-md bg-black text-white hover:bg-black"
-              style={{
-                backgroundColor: colorHex,
-                borderRadius:
-                  borderStyle === BorderStyles.SQUARE
-                    ? "0px"
-                    : borderStyle === BorderStyles.CIRCLE
-                      ? "9999px"
-                      : "8px",
-              }}
-            >
-              {language}
-            </Badge>
-          ))}
-          </div>
-        )}
+        <RenderHtml html={languages} className="text-sm" />
       </div>
     </>
   );

@@ -75,13 +75,9 @@ export default function ProfessionalTemplate({
       )}
 
       {/* Core Skills */}
-      {skills && skills.length > 0 && (
+      {skills && (
         <Section title="Core Skills">
-          <ul className="list-disc list-inside space-y-0.5">
-            {skills.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
+          <RenderHtml html={skills} className="text-justify" />
         </Section>
       )}
 
@@ -195,16 +191,16 @@ export default function ProfessionalTemplate({
       )}
 
       {/* Strengths (Soft Skills) */}
-      {strengths && strengths.length > 0 && (
+      {strengths && (
         <Section title="Soft Skills">
-          <p>{strengths.join(" • ")}</p>
+          <RenderHtml html={strengths} className="text-justify" />
         </Section>
       )}
 
       {/* Languages */}
-      {languages && languages.length > 0 && (
+      {languages && (
         <Section title="Languages">
-          <p>{languages.join(" • ")}</p>
+          <RenderHtml html={languages} className="text-justify" />
         </Section>
       )}
     </div>

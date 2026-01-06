@@ -1,13 +1,11 @@
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
 import RichTextEditor from "@/components/editor/RichTextEditor";
 import { EditorFormProps } from "@/lib/types";
 import { skillsSchema, SkillsValues } from "@/lib/validation";
@@ -22,8 +20,7 @@ export default function SkillsForm({
   const form = useForm<SkillsValues>({
     resolver: zodResolver(skillsSchema),
     defaultValues: {
-      skills: resumeData.skills || [],
-      skillsDescription: resumeData.skillsDescription || "",
+      skills: resumeData.skills || "",
     },
   });
 
@@ -31,15 +28,7 @@ export default function SkillsForm({
     const { unsubscribe } = form.watch(async (values) => {
       const isValid = await form.trigger();
       if (!isValid) return;
-      setResumeData({
-        ...resumeData,
-        skills:
-          values.skills
-            ?.filter((skill) => skill !== undefined)
-            .map((skill) => skill.trim())
-            .filter((skill) => skill !== "") || [],
-        skillsDescription: values.skillsDescription,
-      });
+      setResumeData({ ...resumeData, ...values });
     });
     return unsubscribe;
   }, [form, resumeData, setResumeData]);
@@ -54,40 +43,17 @@ export default function SkillsForm({
         <form className="space-y-3">
           <FormField
             control={form.control}
-            name="skillsDescription"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Skills Overview (Optional)</FormLabel>
-                <FormControl>
-                  <RichTextEditor
-                    value={field.value || ""}
-                    onChange={field.onChange}
-                    placeholder="Add a brief description of your technical skills and expertise..."
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
             name="skills"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="sr-only">Skills</FormLabel>
                 <FormControl>
-                  <Textarea
-                    {...field}
-                    placeholder="e.g. React.js, Node.js, graphic design, ..."
-                    onChange={(e) => {
-                      const skills = e.target.value.split(",");
-                      field.onChange(skills);
-                    }}
+                  <RichTextEditor
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    placeholder="Describe your technical skills, tools, and expertise..."
                   />
                 </FormControl>
-                <FormDescription>
-                  Separate each skill with a comma.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

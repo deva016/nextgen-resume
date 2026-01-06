@@ -99,20 +99,20 @@ export function calculateMatchScore(
 export function extractResumeKeywords(resume: ResumeData): string[] {
   const keywords = new Set<string>();
 
-  // Add skills
-  resume.skills.forEach((skill) => {
-    keywords.add(skill.toLowerCase().trim());
-  });
+  // Add keywords from skills (HTML text)
+  if (resume.skills) {
+    extractKeywordsFromText(resume.skills as string).forEach((kw) => keywords.add(kw));
+  }
 
-  // Add languages
-  resume.languages.forEach((lang) => {
-    keywords.add(lang.toLowerCase().trim());
-  });
+  // Add keywords from languages (HTML text)
+  if (resume.languages) {
+    extractKeywordsFromText(resume.languages as string).forEach((kw) => keywords.add(kw));
+  }
 
-  // Add strengths
-  resume.strengths.forEach((strength) => {
-    keywords.add(strength.toLowerCase().trim());
-  });
+  // Add keywords from strengths (HTML text)
+  if (resume.strengths) {
+    extractKeywordsFromText(resume.strengths as string).forEach((kw) => keywords.add(kw));
+  }
 
   // Extract keywords from summary
   if (resume.summary) {
