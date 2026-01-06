@@ -74,12 +74,13 @@ const CACHE_TTL = 60 * 60 * 1000; // 1 hour
  */
 function buildAdzunaUrl(
   endpoint: string,
-  params: Record<string, string | number>
+  params: Record<string, string | number>,
+  countryCode: string = "us"
 ): string {
   const baseUrl = "https://api.adzuna.com/v1/api/jobs";
-  const country = "us"; // Can be made configurable
-  const appId = process.env.ADZUNA_APP_ID;
-  const appKey = process.env.ADZUNA_APP_KEY;
+  const country = countryCode.toLowerCase();
+  const appId = process.env.ADZUNA_APP_ID?.trim();
+  const appKey = process.env.ADZUNA_APP_KEY?.trim();
 
   if (!appId || !appKey) {
     throw new Error("Adzuna API credentials not configured");
@@ -93,7 +94,15 @@ function buildAdzunaUrl(
     ),
   });
 
-  return `${baseUrl}/${country}/${endpoint}?${queryParams}`;
+  const url = `${baseUrl}/${country}/${endpoint}?${queryParams}`;
+  
+  // Log URL for debugging (hiding keys)
+  const debugUrl = url
+    .replace(`app_id=${appId}`, "app_id=HIDDEN")
+    .replace(`app_key=${appKey}`, "app_key=HIDDEN");
+  console.log("Calling Adzuna API:", debugUrl);
+
+  return url;
 }
 
 /**
@@ -133,7 +142,7 @@ export function normalizeJobData(adzunaJob: AdzunaJob): Job {
  */
 export async function searchJobs(
   keywords: string[],
-  options: SearchOptions = {}
+  options: SearchOptions & { countryCode?: string } = {}
 ): Promise<{ jobs: Job[]; totalCount: number }> {
   try {
     // Build cache key
@@ -147,7 +156,7 @@ export async function searchJobs(
     }
 
     // Build search query
-    let query = keywords.join(" ");
+    let query = keywords.join(" ").replace(/\s+/g, " ").trim();
     
     // Fallback: If keywords extraction results in nothing, try a generic search
     if (!query || query.trim().length === 0) {
@@ -168,7 +177,7 @@ export async function searchJobs(
     }
 
     if (options.location) {
-      params.where = options.location;
+      params.where = options.location.trim();
     }
 
     if (options.maxDays) {
@@ -194,13 +203,19 @@ export async function searchJobs(
     }
 
     // Make API request
-    const url = buildAdzunaUrl("search/1", params);
-    const response = await fetch(url);
+    const url = buildAdzunaUrl("search/1", params, options.countryCode);
+    
+    const response = await fetch(url, {
+      headers: {
+        "User-Agent": "NextGen-Resume-Builder/1.0",
+        "Accept": "application/json",
+      },
+    });
 
     if (!response.ok) {
       const apiErrorText = await response.text();
       console.error("Adzuna API raw error:", apiErrorText);
-      throw new Error(`Adzuna API error ${response.status}: ${apiErrorText || 'Bad Request'}`);
+      throw new Error(`Adzuna API error ${response.status}: ${apiErrorText.slice(0, 200) || 'Bad Request'}`);
     }
 
     const data: AdzunaResponse = await response.json();
@@ -274,3 +289,41 @@ export function extractKeywordsFromText(text: string): string[] {
   // Return unique keywords
   return Array.from(new Set(words));
 }
+
+/**
+ * Get Adzuna country code from country name string
+ */
+export function getAdzunaCountryCode(countryName?: string | null): string {
+  if (!countryName) return "us";
+
+  const normalized = countryName.toLowerCase().trim();
+  
+  const countryMap: Record<string, string> = {
+    "united states": "us",
+    "usa": "us",
+    "united kingdom": "gb",
+    "uk": "gb",
+    "great britain": "gb",
+    "india": "in",
+    "canada": "ca",
+    "australia": "au",
+    "germany": "de",
+    "france": "fr",
+    "brazil": "br",
+    "netherlands": "nl",
+    "austria": "at",
+    "belgium": "be",
+    "poland": "pl",
+    "russia": "ru",
+    "south africa": "za",
+    "mexico": "mx",
+    "new zealand": "nz",
+    "singapore": "sg",
+    "switzerland": "ch",
+    "italy": "it",
+    "saudi arabia": "sa",
+  };
+
+  return countryMap[normalized] || "us";
+}
+

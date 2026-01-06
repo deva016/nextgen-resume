@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
-import { searchJobs } from "@/lib/adzuna";
+import { searchJobs, getAdzunaCountryCode } from "@/lib/adzuna";
 import { matchResumeToJobs, extractResumeKeywords } from "@/lib/job-matcher";
 
 /**
@@ -41,8 +41,11 @@ export async function GET(req: NextRequest) {
     const searchKeywords = keywords.slice(0, 10); // Top 10 keywords
 
     // Search for jobs
+    const countryCode = getAdzunaCountryCode(resume.country);
+    
     const { jobs } = await searchJobs(searchKeywords, {
-      location: resume.city || resume.country || undefined,
+      location: resume.city || undefined,
+      countryCode,
       resultsPerPage: 50, // Get more jobs for better matching
       maxDays: 30, // Last 30 days
     });
