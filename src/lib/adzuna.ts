@@ -168,7 +168,7 @@ export async function searchJobs(
 
     // Build API params
     const params: Record<string, string | number> = {
-      results_per_page: resultsPerPage,
+      results_per_page: Math.min(resultsPerPage, 20), // Cap at 20 for better API compatibility
       page,
     };
 
@@ -180,7 +180,8 @@ export async function searchJobs(
       params.where = options.location.trim();
     }
 
-    if (options.maxDays) {
+    // Some endpoints don't support max_days_old, so we'll only add it if explicitly requested
+    if (options.maxDays && options.maxDays !== 30) { 
       params.max_days_old = options.maxDays;
     }
 
@@ -205,12 +206,8 @@ export async function searchJobs(
     // Make API request
     const url = buildAdzunaUrl("search/1", params, options.countryCode);
     
-    const response = await fetch(url, {
-      headers: {
-        "User-Agent": "NextGen-Resume-Builder/1.0",
-        "Accept": "application/json",
-      },
-    });
+    // Removing custom headers to avoid Nginx blocking (standard fetch behavior)
+    const response = await fetch(url);
 
     if (!response.ok) {
       const apiErrorText = await response.text();
