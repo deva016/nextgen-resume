@@ -31,8 +31,11 @@ export default function ModernProfessionalTemplate({
     email,
     summary,
     skills,
+    strengths,
+    languages,
     workExperiences,
     educations,
+    projects,
     certifications,
   } = resumeData;
 
@@ -131,6 +134,22 @@ export default function ModernProfessionalTemplate({
         </Section>
       )}
 
+      {/* Projects */}
+      {projects && projects.length > 0 && (
+        <Section title="Projects">
+          {projects.map((project, index) => (
+            <div key={index} className="mb-2">
+              <h3 className="font-bold text-xs">{project.name}</h3>
+              {project.description && (
+                <div className="text-xs mt-0.5">
+                  <RenderHtml html={project.description} />
+                </div>
+              )}
+            </div>
+          ))}
+        </Section>
+      )}
+
       {/* Certifications */}
       {certifications && certifications.length > 0 && (
         <Section title="Certifications">
@@ -141,6 +160,24 @@ export default function ModernProfessionalTemplate({
                 <span className="text-xs">{cert.name}</span>
               </div>
             ))}
+          </div>
+        </Section>
+      )}
+
+      {/* Strengths */}
+      {strengths && (
+        <Section title="Strengths">
+          <div className="text-xs">
+            <RenderHtml html={strengths} />
+          </div>
+        </Section>
+      )}
+
+      {/* Languages */}
+      {languages && (
+        <Section title="Languages">
+          <div className="text-xs">
+            <RenderHtml html={languages} />
           </div>
         </Section>
       )}

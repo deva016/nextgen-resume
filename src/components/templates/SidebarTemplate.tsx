@@ -29,9 +29,11 @@ export default function SidebarTemplate({
     email,
     summary,
     skills,
+    strengths,
     languages,
     workExperiences,
     educations,
+    projects,
     certifications,
   } = resumeData;
 
@@ -160,7 +162,7 @@ export default function SidebarTemplate({
 
         {/* Education */}
         {educations && educations.length > 0 && (
-          <section>
+          <section className="mb-4">
             <SectionTitle icon="●">EDUCATION</SectionTitle>
             {educations.map((edu, index) => (
               <div key={index} className="mb-2">
@@ -176,6 +178,33 @@ export default function SidebarTemplate({
                 )}
               </div>
             ))}
+          </section>
+        )}
+
+        {/* Projects */}
+        {projects && projects.length > 0 && (
+          <section className="mb-4">
+            <SectionTitle icon="●">PROJECTS</SectionTitle>
+            {projects.map((project, index) => (
+              <div key={index} className="mb-2">
+                <h3 className="font-bold text-xs">{project.name}</h3>
+                {project.description && (
+                  <div className="text-xs mt-0.5">
+                    <RenderHtml html={project.description} />
+                  </div>
+                )}
+              </div>
+            ))}
+          </section>
+        )}
+
+        {/* Strengths */}
+        {strengths && (
+          <section>
+            <SectionTitle icon="●">STRENGTHS</SectionTitle>
+            <div className="text-xs">
+              <RenderHtml html={strengths} />
+            </div>
           </section>
         )}
       </div>

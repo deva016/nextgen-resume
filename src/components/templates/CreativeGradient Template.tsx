@@ -29,10 +29,12 @@ export default function CreativeGradientTemplate({
     email,
     summary,
     skills,
+    strengths,
     languages,
     workExperiences,
     educations,
     projects,
+    certifications,
   } = resumeData;
 
   const location = [city, country].filter(Boolean).join(", ");
@@ -125,12 +127,38 @@ export default function CreativeGradientTemplate({
 
         {/* Languages */}
         {languages && (
-          <div>
+          <div className="mb-6">
             <h2 className="font-bold text-sm mb-2 border-b border-white/30 pb-1">
               LANGUAGES
             </h2>
             <div className="text-xs space-y-1">
               <RenderHtml html={languages} className="text-white" />
+            </div>
+          </div>
+        )}
+
+        {/* Certifications */}
+        {certifications && certifications.length > 0 && (
+          <div className="mb-6">
+            <h2 className="font-bold text-sm mb-2 border-b border-white/30 pb-1">
+              CERTIFICATIONS
+            </h2>
+            <div className="text-xs space-y-1">
+              {certifications.map((cert, index) => (
+                <div key={index}>• {cert.name}</div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Strengths */}
+        {strengths && (
+          <div>
+            <h2 className="font-bold text-sm mb-2 border-b border-white/30 pb-1">
+              STRENGTHS
+            </h2>
+            <div className="text-xs">
+              <RenderHtml html={strengths} className="text-white" />
             </div>
           </div>
         )}

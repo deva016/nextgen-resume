@@ -30,8 +30,11 @@ export default function ExecutiveTemplate({
     summary,
     skills,
     strengths,
+    languages,
     workExperiences,
     educations,
+    projects,
+    certifications,
   } = resumeData;
 
   const location = [city, country].filter(Boolean).join(", ");
@@ -135,9 +138,42 @@ export default function ExecutiveTemplate({
                 <RenderHtml html={strengths} />
               </div>
             )}
+            {languages && (
+              <div className="text-xs mt-3">
+                <div className="font-bold mb-1">LANGUAGES</div>
+                <RenderHtml html={languages} />
+              </div>
+            )}
+            {certifications && certifications.length > 0 && (
+              <div className="mt-3">
+                <div className="font-bold text-xs mb-1">CERTIFICATIONS</div>
+                {certifications.map((cert, index) => (
+                  <div key={index} className="text-xs mb-1">
+                    • {cert.name}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Projects Section (Full Width Below) */}
+      {projects && projects.length > 0 && (
+        <section className="mt-4">
+          <SectionTitle>NOTABLE PROJECTS</SectionTitle>
+          {projects.map((project, index) => (
+            <div key={index} className="mb-2">
+              <h3 className="font-bold text-xs">{project.name}</h3>
+              {project.description && (
+                <div className="text-xs mt-0.5">
+                  <RenderHtml html={project.description} />
+                </div>
+              )}
+            </div>
+          ))}
+        </section>
+      )}
     </div>
   );
 }

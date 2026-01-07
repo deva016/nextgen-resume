@@ -31,9 +31,12 @@ export default function ModernMinimalTemplate({
     email,
     summary,
     skills,
+    strengths,
+    languages,
     workExperiences,
     educations,
     projects,
+    certifications,
   } = resumeData;
 
   const location = [city, country].filter(Boolean).join(", ");
@@ -134,7 +137,7 @@ export default function ModernMinimalTemplate({
 
       {/* Projects (if any) */}
       {projects && projects.length > 0 && (
-        <section>
+        <section className="mb-4">
           <SectionTitle>ADDITIONAL INFORMATION</SectionTitle>
           {projects.map((project, index) => (
             <div key={index} className="mb-2">
@@ -146,6 +149,40 @@ export default function ModernMinimalTemplate({
               )}
             </div>
           ))}
+        </section>
+      )}
+
+      {/* Certifications */}
+      {certifications && certifications.length > 0 && (
+        <section className="mb-4">
+          <SectionTitle>CERTIFICATIONS</SectionTitle>
+          <div className="grid grid-cols-2 gap-2">
+            {certifications.map((cert, index) => (
+              <div key={index} className="text-xs">
+                • {cert.name}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Strengths */}
+      {strengths && (
+        <section className="mb-4">
+          <SectionTitle>STRENGTHS</SectionTitle>
+          <div className="text-xs">
+            <RenderHtml html={strengths} />
+          </div>
+        </section>
+      )}
+
+      {/* Languages */}
+      {languages && (
+        <section>
+          <SectionTitle>LANGUAGES</SectionTitle>
+          <div className="text-xs">
+            <RenderHtml html={languages} />
+          </div>
         </section>
       )}
     </div>
