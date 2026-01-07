@@ -7,7 +7,7 @@ import StatsCard from "@/components/dashboard/StatsCard";
 import ResumeCard from "@/components/dashboard/ResumeCard";
 import EmptyState from "@/components/dashboard/EmptyState";
 import { Button } from "@/components/ui/button";
-import JobRecommendationsSection from "./JobRecommendationsSection";
+// Phase 4 Disabled: Job Recommendations feature
 
 export const metadata: Metadata = {
   title: "Dashboard - NextGen Resume",
@@ -144,8 +144,8 @@ export default async function DashboardPage() {
             </div>
           </div>
 
-          {/* Job Recommendations - Show if user has resumes */}
-          {resumes.length > 0 && <JobRecommendationsSection resumeId={resumes[0].id} />}
+          {/* Phase 4: Job Recommendations - Gracefully Disabled (No reliable free Jobs API available in 2026) */}
+          {/* {resumes.length > 0 && <JobRecommendationsSection resumeId={resumes[0].id} />} */}
 
           {/* Quick Actions */}
           <div>
