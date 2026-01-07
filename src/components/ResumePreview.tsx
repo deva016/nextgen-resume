@@ -6,6 +6,12 @@ import { formatDate } from "date-fns";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import ProfessionalTemplate from "./templates/ProfessionalTemplate";
+import ModernProfessionalTemplate from "./templates/ModernProfessionalTemplate";
+import CreativeGradientTemplate from "./templates/CreativeGradient Template";
+import ExecutiveTemplate from "./templates/ExecutiveTemplate";
+import ModernMinimalTemplate from "./templates/ModernMinimalTemplate";
+import SidebarTemplate from "./templates/SidebarTemplate";
+import ProfessionalSidebarTemplate from "./templates/ProfessionalSidebarTemplate";
 import { RenderHtml } from "@/lib/html";
 
 interface ResumePreviewProps {
@@ -23,8 +29,33 @@ export default function ResumePreview({
 
   const { width } = useDimensions(containerRef);
 
-  // Use Professional template if selected
-  if (resumeData.template === "professional") {
+  // Template selection mapping
+  const getTemplateComponent = () => {
+    switch (resumeData.template) {
+      case "professional":
+        return <ProfessionalTemplate resumeData={resumeData} contentRef={contentRef} />;
+      case "modern_professional":
+        return <ModernProfessionalTemplate resumeData={resumeData} contentRef={contentRef} />;
+      case "creative_gradient":
+        return <CreativeGradientTemplate resumeData={resumeData} contentRef={contentRef} />;
+      case "executive":
+        return <ExecutiveTemplate resumeData={resumeData} contentRef={contentRef} />;
+      case "modern_minimal":
+        return <ModernMinimalTemplate resumeData={resumeData} contentRef={contentRef} />;
+      case "sidebar":
+        return <SidebarTemplate resumeData={resumeData} contentRef={contentRef} />;
+      case "professional_sidebar":
+        return <ProfessionalSidebarTemplate resumeData={resumeData} contentRef={contentRef} />;
+      default:
+        // Default: Modern template (original layout below)
+        return null;
+    }
+  };
+
+  const templateComponent = getTemplateComponent();
+
+  // If a template is selected, render it
+  if (templateComponent) {
     return (
       <div
         className={cn(
@@ -39,7 +70,7 @@ export default function ResumePreview({
             zoom: (1 / 794) * width,
           }}
         >
-          <ProfessionalTemplate resumeData={resumeData} contentRef={contentRef} />
+          {templateComponent}
         </div>
       </div>
     );

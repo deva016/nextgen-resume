@@ -4,6 +4,12 @@ import { FileText, LayoutTemplate } from "lucide-react";
 export const Templates = {
   MODERN: "modern",
   PROFESSIONAL: "professional",
+  MODERN_PROFESSIONAL: "modern_professional",
+  CREATIVE_GRADIENT: "creative_gradient",
+  EXECUTIVE: "executive",
+  MODERN_MINIMAL: "modern_minimal",
+  SIDEBAR: "sidebar",
+  PROFESSIONAL_SIDEBAR: "professional_sidebar",
 };
 
 const templates = Object.values(Templates);
@@ -11,6 +17,12 @@ const templates = Object.values(Templates);
 const templateLabels: Record<string, string> = {
   modern: "Modern",
   professional: "Professional",
+  modern_professional: "Modern Pro",
+  creative_gradient: "Creative",
+  executive: "Executive",
+  modern_minimal: "Minimal",
+  sidebar: "Sidebar",
+  professional_sidebar: "Pro Sidebar",
 };
 
 interface TemplateSelectorButtonProps {
