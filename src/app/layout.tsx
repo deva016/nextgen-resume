@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/toaster";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
@@ -79,6 +80,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <ThemeSwitcher />
             <Toaster />
           </ThemeProvider>
         </body>
