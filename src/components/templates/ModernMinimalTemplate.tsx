@@ -209,18 +209,23 @@ function extractSkillsGrouped(skillsHtml: string): Array<{ category: string; ite
     .map((s) => s.trim())
     .filter((s) => s.length > 0);
 
-  // Group into categories (simple grouping by 3)
+  // Group into categories dynamically (max 3 columns)
   const groups = [];
-  const categories = ["User Research", "Visual Design", "Responsive Design"];
+  const categories = ["Technical Skills", "Design Skills", "Professional Skills"];
+  const itemsPerGroup = Math.ceil(skills.length / 3);
   
-  for (let i = 0; i < Math.min(categories.length, 3); i++) {
-    const startIdx = i * Math.ceil(skills.length / 3);
-    const endIdx = (i + 1) * Math.ceil(skills.length / 3);
-    groups.push({
-      category: categories[i],
-      items: skills.slice(startIdx, endIdx).slice(0, 3),
-    });
+  for (let i = 0; i < 3; i++) {
+    const startIdx = i * itemsPerGroup;
+    const endIdx = (i + 1) * itemsPerGroup;
+    const groupSkills = skills.slice(startIdx, endIdx);
+    
+    if (groupSkills.length > 0) {
+      groups.push({
+        category: categories[i],
+        items: groupSkills,
+      });
+    }
   }
 
-  return groups.filter((g) => g.items.length > 0);
+  return groups;
 }

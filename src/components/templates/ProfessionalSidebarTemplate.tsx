@@ -207,12 +207,12 @@ export default function ProfessionalSidebarTemplate({
           </section>
         )}
 
-        {/* Reference/Certifications */}
+        {/* Certifications */}
         {certifications && certifications.length > 0 && (
           <section>
-            <SectionTitle>REFERENCE</SectionTitle>
-            <div className="grid grid-cols-2 gap-3">
-              {certifications.slice(0, 2).map((cert, index) => (
+            <SectionTitle>CERTIFICATIONS</SectionTitle>
+            <div className="space-y-2">
+              {certifications.map((cert, index) => (
                 <div key={index} className="text-xs">
                   <p className="font-bold">{cert.name}</p>
                 </div>

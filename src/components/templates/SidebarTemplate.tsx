@@ -101,9 +101,9 @@ export default function SidebarTemplate({
         {/* Certifications if available */}
         {certifications && certifications.length > 0 && (
           <section>
-            <SidebarTitle>REFERENCE</SidebarTitle>
+            <SidebarTitle>CERTIFICATIONS</SidebarTitle>
             <div className="text-xs space-y-2">
-              {certifications.slice(0, 1).map((cert, index) => (
+              {certifications.map((cert, index) => (
                 <div key={index}>
                   <p className="font-bold">{cert.name}</p>
                 </div>

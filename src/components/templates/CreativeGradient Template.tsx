@@ -108,7 +108,7 @@ export default function CreativeGradientTemplate({
             <h2 className="font-bold text-sm mb-3 border-b border-white/30 pb-1">
               DESIGN SKILLS
             </h2>
-            {extractSkills(skills).slice(0, 6).map((skill, index) => (
+            {extractSkills(skills).map((skill, index) => (
               <div key={index} className="mb-2">
                 <div className="flex justify-between text-xs mb-1">
                   <span>{skill}</span>
@@ -235,8 +235,8 @@ export default function CreativeGradientTemplate({
               <span className="w-1 h-4 bg-purple-600" />
               Featured Projects
             </h2>
-            <div className="grid grid-cols-2 gap-3">
-              {projects.slice(0, 2).map((project, index) => (
+            <div className="space-y-3">
+              {projects.map((project, index) => (
                 <div
                   key={index}
                   className="p-3 border rounded"
