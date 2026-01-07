@@ -1,7 +1,7 @@
 /**
- * JSearch Job API Client (via RapidAPI)
+ * API-Ninjas Jobs API Client
  * 
- * Provides job search functionality using JSearch API
+ * Provides job search functionality using API-Ninjas
  * Includes caching, error handling, and data normalization
  */
 
@@ -19,34 +19,11 @@ export interface Job {
   category?: string;
 }
 
-interface JSearchJobData {
-  job_id?: string;
-  job_title?: string;
-  job_publisher?: string;
-  employer_name?: string;
-  job_city?: string;
-  job_country?: string;
-  job_description?: string;
-  job_highlights?: {
-    Qualifications?: string[];
-  };
-  job_min_salary?: number;
-  job_max_salary?: number;
-  job_salary_currency?: string;
-  job_salary_period?: string;
-  job_posted_at_timestamp?: number;
-  job_posted_at_datetime_utc?: string;
-  job_employment_type?: string;
-  job_apply_link?: string;
-  job_google_link?: string;
-  job_category?: string;
-}
-
 export interface SearchOptions {
   location?: string;
   page?: number;
   resultsPerPage?: number;
-  maxDays?: number; // Only show jobs posted in last X days
+  maxDays?: number;
   minSalary?: number;
   maxSalary?: number;
   contractType?: "full_time" | "part_time" | "contract";
@@ -65,7 +42,7 @@ const cache = new Map<string, CacheEntry>();
 const CACHE_TTL = 60 * 60 * 1000; // 1 hour
 
 /**
- * Search for jobs using JSearch API
+ * Search for jobs using API-Ninjas Jobs API
  */
 export async function searchJobs(
   keywords: string[],
@@ -83,86 +60,52 @@ export async function searchJobs(
     }
 
     // Get API key
-    const apiKey = process.env.RAPID_API_KEY?.trim();
+    const apiKey = process.env.API_NINJAS_KEY?.trim();
     if (!apiKey) {
-      throw new Error("RapidAPI key not configured. Please set RAPID_API_KEY environment variable.");
+      throw new Error("API-Ninjas key not configured. Please set API_NINJAS_KEY environment variable.");
     }
 
     // Build search query
-    let query = keywords.join(" ").replace(/\s+/g, " ").trim();
+    const query = keywords.join(" ").replace(/\s+/g, " ").trim() || "jobs";
     
-    // Fallback: If keywords extraction results in nothing, try a generic search
-    if (!query || query.trim().length === 0) {
-      query = "jobs"; // Generic search
-    }
-
-    // Add location to query if provided
+    // Build API request URL params
+    const params = new URLSearchParams();
+    params.set("query", query);
+    
     if (options.location) {
-      query += ` in ${options.location.trim()}`;
+      params.set("location", options.location.trim());
     }
 
-    const page = options.page || 1;
-    const resultsPerPage = Math.min(options.resultsPerPage || 20, 20); // Max 20 per page
-
-    // Build API request
-    const url = new URL("https://jsearch.p.rapidapi.com/search");
-    url.searchParams.set("query", query);
-    url.searchParams.set("page", page.toString());
-    url.searchParams.set("num_pages", "1");
+    const url = `https://api.api-ninjas.com/v1/jobs?${params}`;
     
-    // Date filter
-    if (options.maxDays) {
-      if (options.maxDays <= 1) {
-        url.searchParams.set("date_posted", "today");
-      } else if (options.maxDays <= 3) {
-        url.searchParams.set("date_posted", "3days");
-      } else if (options.maxDays <= 7) {
-        url.searchParams.set("date_posted", "week");
-      } else if (options.maxDays <= 30) {
-        url.searchParams.set("date_posted", "month");
-      }
-    }
-
-    // Employment type
-    if (options.contractType) {
-      const typeMap = {
-        full_time: "FULLTIME",
-        part_time: "PARTTIME",
-        contract: "CONTRACTOR",
-      };
-      url.searchParams.set("employment_types", typeMap[options.contractType]);
-    }
-
-    console.log("Calling JSearch API:", url.toString().replace(apiKey, "KEY_HIDDEN"));
+    console.log("Calling API-Ninjas Jobs API:", url.replace(apiKey, "KEY_HIDDEN"));
 
     // Make API request
-    const response = await fetch(url.toString(), {
+    const response = await fetch(url, {
       method: "GET",
       headers: {
-        "X-RapidAPI-Key": apiKey,
-        "X-RapidAPI-Host": "jsearch.p.rapidapi.com",
+        "X-Api-Key": apiKey,
       },
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("JSearch API error:", errorText);
-      throw new Error(`JSearch API error ${response.status}: ${errorText.slice(0, 200)}`);
+      console.error("API-Ninjas error:", errorText);
+      throw new Error(`API-Ninjas error ${response.status}: ${errorText.slice(0, 200)}`);
     }
 
     const data = await response.json();
 
-    // Check if API returned an error
-    if (data.status === "error" || !data.data) {
-      throw new Error(data.error || "JSearch API returned no results");
+    // API-Ninjas returns an array of jobs directly
+    if (!Array.isArray(data)) {
+      throw new Error("API-Ninjas returned unexpected format");
     }
 
-    // Normalize jobs
-    const jobs = (data.data || [])
-      .slice(0, resultsPerPage)
+    // Normalize and filter jobs
+    const jobs = data
       .map(normalizeJobData)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .filter((job: any): job is Job => job !== null);
+      .filter((job): job is Job => job !== null)
+      .slice(0, options.resultsPerPage || 20);
 
     // Cache results
     cache.set(cacheKey, {
@@ -182,47 +125,36 @@ export async function searchJobs(
 }
 
 /**
- * Normalize JSearch job data to our format
+ * Normalize API-Ninjas job data to our format
  */
-function normalizeJobData(jsearchJob: JSearchJobData): Job | null {
-  try {
-    // Format salary
-    let salary: string | null = null;
-    if (jsearchJob.job_min_salary && jsearchJob.job_max_salary) {
-      const min = Math.round(jsearchJob.job_min_salary);
-      const max = Math.round(jsearchJob.job_max_salary);
-      const currency = jsearchJob.job_salary_currency || "$";
-      salary = `${currency}${min.toLocaleString()} - ${currency}${max.toLocaleString()}`;
-      
-      if (jsearchJob.job_salary_period) {
-        salary += ` (${jsearchJob.job_salary_period})`;
-      }
-    } else if (jsearchJob.job_min_salary) {
-      const currency = jsearchJob.job_salary_currency || "$";
-      salary = `${currency}${Math.round(jsearchJob.job_min_salary).toLocaleString()}+`;
-    }
+interface APINinjasJob {
+  title?: string;
+  company?: string;
+  location?: string;
+  description?: string;
+  salary?: string;
+  date_posted?: string;
+  employment_type?: string;
+  url?: string;
+}
 
-    // Parse posted date
-    let postedDate = new Date();
-    if (jsearchJob.job_posted_at_timestamp) {
-      postedDate = new Date(jsearchJob.job_posted_at_timestamp * 1000);
-    } else if (jsearchJob.job_posted_at_datetime_utc) {
-      postedDate = new Date(jsearchJob.job_posted_at_datetime_utc);
+function normalizeJobData(job: APINinjasJob): Job | null {
+  try {
+    if (!job.title || !job.company) {
+      return null; // Skip jobs without basic info
     }
 
     return {
-      id: jsearchJob.job_id || `job_${Date.now()}_${Math.random()}`,
-      title: jsearchJob.job_title || "Untitled Position",
-      company: jsearchJob.job_publisher || jsearchJob.employer_name || "Unknown Company",
-      location: jsearchJob.job_city 
-        ? `${jsearchJob.job_city}, ${jsearchJob.job_country}` 
-        : jsearchJob.job_country || "Remote",
-      description: jsearchJob.job_description || jsearchJob.job_highlights?.Qualifications?.join(", ") || "No description available",
-      salary,
-      postedDate,
-      contractType: jsearchJob.job_employment_type || "Not specified",
-      url: jsearchJob.job_apply_link || jsearchJob.job_google_link || "#",
-      category: jsearchJob.job_category,
+      id: `${job.company}_${job.title}_${Date.now()}`.replace(/\s+/g, "_"),
+      title: job.title,
+      company: job.company,
+      location: job.location || "Remote",
+      description: job.description || "No description available",
+      salary: job.salary || null,
+      postedDate: job.date_posted ? new Date(job.date_posted) : new Date(),
+      contractType: job.employment_type || "Not specified",
+      url: job.url || "#",
+      category: undefined,
     };
   } catch (error) {
     console.error("Error normalizing job data:", error);

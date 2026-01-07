@@ -112,23 +112,23 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error("Job recommendations error:", error);
     
-    // Check if this is a JSearch API credential/access issue
+    // Check if this is an API-Ninjas credential/access issue
     const errorMessage = error instanceof Error ? error.message : String(error);
     const isAPIAuthIssue = errorMessage.includes('400') || 
                            errorMessage.includes('401') ||
                            errorMessage.includes('403') ||
                            errorMessage.includes('credentials') || 
-                           errorMessage.includes('RapidAPI') ||
+                           errorMessage.includes('API-Ninjas') ||
                            errorMessage.includes('key');
     
     if (isAPIAuthIssue) {
       // Return empty recommendations instead of error for credential issues
-      console.log("JSearch API credentials appear invalid or restricted. Returning empty recommendations.");
+      console.log("API-Ninjas credentials appear invalid or restricted. Returning empty recommendations.");
       return NextResponse.json({
         recommendations: [],
         resumeId: resumeId!,
         matchCount: 0,
-        message: "Job recommendations temporarily unavailable. Please check RapidAPI credentials.",
+        message: "Job recommendations temporarily unavailable. Please check API-Ninjas credentials.",
       });
     }
     
