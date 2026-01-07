@@ -5,7 +5,7 @@
  */
 
 import { Resume, ATSScore } from "@prisma/client";
-import { Job } from "./adzuna";
+import { Job } from "./jobs-api";
 
 export interface JobMatch {
   job: Job;

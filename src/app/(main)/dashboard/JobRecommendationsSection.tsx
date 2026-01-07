@@ -95,15 +95,15 @@ export default function JobRecommendationsSection({ resumeId }: JobRecommendatio
         <div className="rounded-xl border border-yellow-500/20 bg-yellow-500/10 p-6 text-center">
           <p className="text-yellow-400">⚠️ Job recommendations are currently unavailable.</p>
           <p className="mt-2 text-sm text-gray-400">
-            This feature requires valid Adzuna API credentials. Please contact support or check your API configuration.
+            This feature requires a valid RapidAPI key for JSearch. Please check your API configuration.
           </p>
           <details className="mt-3 text-left">
             <summary className="cursor-pointer text-xs text-gray-500 hover:text-gray-400">
               How to fix this
             </summary>
             <div className="mt-2 space-y-2 text-xs text-gray-500">
-              <p>1. Get free API credentials from <a href="https://developer.adzuna.com/signup" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">developer.adzuna.com</a></p>
-              <p>2. Add ADZUNA_APP_ID and ADZUNA_APP_KEY to your environment variables</p>
+              <p>1. Get a free API key from <a href="https://rapidapi.com/letscrape-6bRBa3QguO5/api/jsearch" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">RapidAPI JSearch</a></p>
+              <p>2. Add RAPID_API_KEY to your environment variables</p>
               <p>3. Redeploy your application</p>
             </div>
           </details>

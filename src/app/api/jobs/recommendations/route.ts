@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
-import { searchJobs, getAdzunaCountryCode } from "@/lib/adzuna";
+import { searchJobs } from "@/lib/jobs-api";
 import { matchResumeToJobs, extractResumeKeywords } from "@/lib/job-matcher";
 
 /**
@@ -42,13 +42,10 @@ export async function GET(req: NextRequest) {
     const keywords = extractResumeKeywords(resume);
     const searchKeywords = keywords.slice(0, 10); // Top 10 keywords
 
-    // Search for jobs
-    const countryCode = getAdzunaCountryCode(resume.country);
-    
+    // Search for jobs using JSearch API
     const { jobs } = await searchJobs(searchKeywords, {
-      location: resume.city || undefined,
-      countryCode,
-      resultsPerPage: 50, // Get more jobs for better matching
+      location: resume.city || resume.country || undefined,
+      resultsPerPage: 20,
       maxDays: 30, // Last 30 days
     });
 
@@ -115,20 +112,23 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error("Job recommendations error:", error);
     
-    // Check if this is an Adzuna API credential/access issue
+    // Check if this is a JSearch API credential/access issue
     const errorMessage = error instanceof Error ? error.message : String(error);
-    const isAdzunaAuthIssue = errorMessage.includes('400') || 
-                               errorMessage.includes('credentials') || 
-                               errorMessage.includes('nginx');
+    const isAPIAuthIssue = errorMessage.includes('400') || 
+                           errorMessage.includes('401') ||
+                           errorMessage.includes('403') ||
+                           errorMessage.includes('credentials') || 
+                           errorMessage.includes('RapidAPI') ||
+                           errorMessage.includes('key');
     
-    if (isAdzunaAuthIssue) {
+    if (isAPIAuthIssue) {
       // Return empty recommendations instead of error for credential issues
-      console.log("Adzuna API credentials appear invalid or restricted. Returning empty recommendations.");
+      console.log("JSearch API credentials appear invalid or restricted. Returning empty recommendations.");
       return NextResponse.json({
         recommendations: [],
-        resumeId,
+        resumeId: resumeId!,
         matchCount: 0,
-        message: "Job recommendations temporarily unavailable. Please check Adzuna API credentials.",
+        message: "Job recommendations temporarily unavailable. Please check RapidAPI credentials.",
       });
     }
     
