@@ -9,6 +9,8 @@ import { matchResumeToJobs, extractResumeKeywords } from "@/lib/job-matcher";
  * Get personalized job recommendations for a resume
  */
 export async function GET(req: NextRequest) {
+  let resumeId: string | null = null;
+  
   try {
     const { userId } = await auth();
 
@@ -17,7 +19,7 @@ export async function GET(req: NextRequest) {
     }
 
     const { searchParams } = new URL(req.url);
-    const resumeId = searchParams.get("resumeId");
+    resumeId = searchParams.get("resumeId");
 
     if (!resumeId) {
       return NextResponse.json(
@@ -63,7 +65,7 @@ export async function GET(req: NextRequest) {
       topMatches.map(async (match) => {
         const existing = await prisma.jobRecommendation.findFirst({
           where: {
-            resumeId,
+            resumeId: resumeId!, // Non-null assertion - checked earlier
             jobId: match.job.id,
           },
         });
@@ -84,7 +86,7 @@ export async function GET(req: NextRequest) {
           await prisma.jobRecommendation.create({
             data: {
               userId,
-              resumeId,
+              resumeId: resumeId!, // Non-null assertion - checked earlier
               jobId: match.job.id,
               title: match.job.title,
               company: match.job.company,
@@ -107,11 +109,29 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       recommendations: topMatches,
-      resumeId,
+      resumeId: resumeId!, // Non-null assertion - checked earlier
       matchCount: topMatches.length,
     });
   } catch (error) {
     console.error("Job recommendations error:", error);
+    
+    // Check if this is an Adzuna API credential/access issue
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const isAdzunaAuthIssue = errorMessage.includes('400') || 
+                               errorMessage.includes('credentials') || 
+                               errorMessage.includes('nginx');
+    
+    if (isAdzunaAuthIssue) {
+      // Return empty recommendations instead of error for credential issues
+      console.log("Adzuna API credentials appear invalid or restricted. Returning empty recommendations.");
+      return NextResponse.json({
+        recommendations: [],
+        resumeId,
+        matchCount: 0,
+        message: "Job recommendations temporarily unavailable. Please check Adzuna API credentials.",
+      });
+    }
+    
     return NextResponse.json(
       { 
         error: "Failed to get job recommendations",

@@ -92,11 +92,21 @@ export default function JobRecommendationsSection({ resumeId }: JobRecommendatio
           <Briefcase className="h-5 w-5 text-purple-400" />
           Recommended Jobs
         </h2>
-        <div className="rounded-xl border border-white/10 bg-white/5 p-6 text-center">
-          <p className="text-gray-400">No job recommendations available yet.</p>
-          <p className="mt-2 text-sm text-gray-500">
-            Complete your resume to get personalized job matches.
+        <div className="rounded-xl border border-yellow-500/20 bg-yellow-500/10 p-6 text-center">
+          <p className="text-yellow-400">⚠️ Job recommendations are currently unavailable.</p>
+          <p className="mt-2 text-sm text-gray-400">
+            This feature requires valid Adzuna API credentials. Please contact support or check your API configuration.
           </p>
+          <details className="mt-3 text-left">
+            <summary className="cursor-pointer text-xs text-gray-500 hover:text-gray-400">
+              How to fix this
+            </summary>
+            <div className="mt-2 space-y-2 text-xs text-gray-500">
+              <p>1. Get free API credentials from <a href="https://developer.adzuna.com/signup" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">developer.adzuna.com</a></p>
+              <p>2. Add ADZUNA_APP_ID and ADZUNA_APP_KEY to your environment variables</p>
+              <p>3. Redeploy your application</p>
+            </div>
+          </details>
         </div>
       </div>
     );
