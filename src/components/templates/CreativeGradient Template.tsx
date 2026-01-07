@@ -52,11 +52,19 @@ export default function CreativeGradientTemplate({
         }}
       >
         {/* Profile Photo Placeholder */}
-        <div className="w-24 h-24 rounded-full bg-white/20 mx-auto mb-4 flex items-center justify-center">
-          <span className="text-4xl font-bold">
-            {firstName?.[0]}
-            {lastName?.[0]}
-          </span>
+        <div className="w-24 h-24 rounded-full bg-white/20 mx-auto mb-4 flex items-center justify-center overflow-hidden relative">
+          {resumeData.photo ? (
+            <img
+              src={typeof resumeData.photo === "string" ? resumeData.photo : URL.createObjectURL(resumeData.photo)}
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <span className="text-4xl font-bold">
+              {firstName?.[0]}
+              {lastName?.[0]}
+            </span>
+          )}
         </div>
 
         {/* Name & Title */}

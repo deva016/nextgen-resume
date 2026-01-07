@@ -49,11 +49,19 @@ export default function ProfessionalSidebarTemplate({
       {/* Left Sidebar - Dark Blue */}
       <div className="w-2/5 p-6 text-white" style={{ backgroundColor: DARK_BLUE }}>
         {/* Profile Photo Placeholder */}
-        <div className="w-20 h-20 rounded-full bg-white/20 mx-auto mb-4 flex items-center justify-center">
-          <span className="text-2xl font-bold">
-            {firstName?.[0]}
-            {lastName?.[0]}
-          </span>
+        <div className="w-20 h-20 rounded-full bg-white/20 mx-auto mb-4 flex items-center justify-center overflow-hidden relative">
+          {resumeData.photo ? (
+            <img
+              src={typeof resumeData.photo === "string" ? resumeData.photo : URL.createObjectURL(resumeData.photo)}
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <span className="text-2xl font-bold">
+              {firstName?.[0]}
+              {lastName?.[0]}
+            </span>
+          )}
         </div>
 
         {/* Contact */}

@@ -65,30 +65,49 @@ const templateInfo = [
 
 // Sample resume data for previews
 const sampleResumeData: ResumeValues = {
-  firstName: "John",
+  firstName: "Jane",
   lastName: "Doe",
-  jobTitle: "Software Engineer",
+  jobTitle: "Senior Product Designer",
   city: "San Francisco",
-  country: "USA",
-  phone: "+1 234-567-8900",
-  email: "john@example.com",
-  summary: "<p>Experienced software engineer with 5+ years of expertise in full-stack development.</p>",
-  skills: "<p>JavaScript, React, Node.js, Python, SQL</p>",
+  country: "CA",
+  phone: "+1 (555) 123-4567",
+  email: "jane.doe@example.com",
+  // Using a placeholder image that is reliable
+  photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200",
+  summary: "<p>Creative and detail-oriented product designer with 8+ years of experience in building digital products. specialized in UI/UX and design systems.</p>",
+  skills: `
+    <p><strong>Design:</strong> Figma, Adobe XD, Sketch, Photoshop</p>
+    <p><strong>Prototyping:</strong> Principle, Protopie, Framer</p>
+    <p><strong>Code:</strong> HTML, CSS, JavaScript, React basics</p>
+  `,
+  languages: "<p>English (Native), Spanish (Fluent), French (Intermediate)</p>",
   workExperiences: [
     {
-      position: "Senior Developer",
-      company: "Tech Corp",
-      startDate: "2020-01",
-      description: "<ul><li>Led development of microservices architecture</li><li>Reduced deployment time by 40%</li></ul>",
+      position: "Senior UI/UX Designer",
+      company: "TechFlow Inc.",
+      startDate: "2021-03",
+      description: "<ul><li>Spearheaded the redesign of the main product dashboard, increasing user engagement by 30%.</li><li>Established a comprehensive design system used across 4 different product lines.</li></ul>",
+    },
+    {
+      position: "Product Designer",
+      company: "Creative Studio",
+      startDate: "2018-06",
+      endDate: "2021-02",
+      description: "<ul><li>Collaborated with cross-functional teams to deliver pixel-perfect designs.</li><li>Conducted user research and usability testing.</li></ul>",
     },
   ],
   educations: [
     {
-      degree: "BS Computer Science",
-      school: "University of Technology",
-      startDate: "2015-09",
-      endDate: "2019-05",
+      degree: "Bachelor of Fine Arts in Design",
+      school: "California College of the Arts",
+      startDate: "2014-09",
+      endDate: "2018-05",
     },
+  ],
+  certifications: [
+    {
+      name: "Google UX Design Professional Certificate",
+    }
   ],
   colorHex: "#8b5cf6",
   borderStyle: "squircle",
@@ -145,13 +164,19 @@ export default function TemplateGallery({
                 `}
               >
                 {/* Actual Template Preview */}
-                <div className="w-full aspect-[210/297] rounded-md mb-2 overflow-hidden bg-white shadow-sm">
-                  <div className="scale-[0.15] origin-top-left" style={{ width: "666%", height: "666%" }}>
-                    <ResumePreview
-                      resumeData={{ ...sampleResumeData, template: template.id }}
-                      className="pointer-events-none"
-                    />
-                  </div>
+                <div className="w-full aspect-[210/297] rounded-md mb-2 overflow-hidden bg-white shadow-sm relative">
+                   <div 
+                      className="origin-top-left" 
+                      style={{ 
+                        width: "400%", // 4x the card width (approx 800px to match A4 794px)
+                        transform: "scale(0.25)", // Scale back down to fit
+                      }}
+                   >
+                      <ResumePreview
+                        resumeData={{ ...sampleResumeData, template: template.id }}
+                        className="pointer-events-none shadow-none"
+                      />
+                   </div>
                 </div>
 
                 {/* Template Info */}
