@@ -140,7 +140,7 @@ export default function BlogPage() {
           {/* Articles CTA */}
           <div className="mt-8 text-center">
             <p className="text-gray-400">
-              Want to read these articles? They're available in the project documentation.{" "}
+              Want to read these articles? They&apos;re available in the project documentation.{" "}
               <a 
                 href="https://github.com/deva016/nextgen-resume" 
                 target="_blank" 

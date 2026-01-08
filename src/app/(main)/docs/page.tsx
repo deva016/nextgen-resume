@@ -243,7 +243,7 @@ export default function DocsPage() {
               <div className="flex-1">
                 <div className="mb-3 flex flex-wrap items-center gap-3">
                   <span className="rounded-full bg-green-500/20 px-3 py-1 text-xs font-medium text-green-300">
-                    Backend & Parsing
+                    Backend &amp; Parsing
                   </span>
                   <div className="flex items-center gap-2 text-sm text-gray-500">
                     <Clock className="h-4 w-4" />
@@ -314,7 +314,7 @@ export default function DocsPage() {
                 <BookOpen className="h-5 w-5 text-blue-400" />
                 <div>
                   <div className="font-semibold">Blog</div>
-                  <div className="text-sm text-gray-400">Latest updates & features</div>
+                  <div className="text-sm text-gray-400">Latest updates &amp; features</div>
                 </div>
                 <ArrowLeft className="ml-auto h-4 w-4 rotate-180 text-gray-500" />
               </Link>

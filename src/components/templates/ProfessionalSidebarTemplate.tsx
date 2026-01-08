@@ -2,6 +2,7 @@ import { ResumeValues } from "@/lib/validation";
 import { format } from "date-fns";
 import React from "react";
 import { RenderHtml } from "@/lib/html";
+import Image from "next/image";
 
 const formatDateString = (dateString: string | undefined, formatStr: string) => {
   if (!dateString) return "";
@@ -53,9 +54,11 @@ export default function ProfessionalSidebarTemplate({
         {/* Profile Photo Placeholder */}
         <div className="w-20 h-20 rounded-full bg-white/20 mx-auto mb-4 flex items-center justify-center overflow-hidden relative">
           {resumeData.photo ? (
-            <img
+            <Image
               src={typeof resumeData.photo === "string" ? resumeData.photo : URL.createObjectURL(resumeData.photo)}
               alt="Profile"
+              width={80}
+              height={80}
               className="w-full h-full object-cover"
             />
           ) : (
