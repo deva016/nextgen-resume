@@ -25,11 +25,13 @@ const templateInfo = [
     id: Templates.MODERN,
     name: "Modern",
     description: "Clean and contemporary design with badges",
+    recommended: true,
   },
   {
     id: Templates.PROFESSIONAL,
     name: "Professional",
     description: "Classic professional layout with teal accents",
+    recommended: true,
   },
   {
     id: Templates.MODERN_PROFESSIONAL,
@@ -60,6 +62,26 @@ const templateInfo = [
     id: Templates.PROFESSIONAL_SIDEBAR,
     name: "Professional Sidebar",
     description: "Dark blue sidebar with professional styling",
+  },
+  {
+    id: Templates.DEEDY_TWO_COLUMN,
+    name: "Deedy Two-Column",
+    description: "Academic-style resume with prominent sidebar",
+  },
+  {
+    id: Templates.CLEAN_PROFESSIONAL,
+    name: "Clean Professional",
+    description: "Ultra-clean single column with ruled sections",
+  },
+  {
+    id: Templates.LUXSLEEK_DARK_SIDEBAR,
+    name: "LuxSleek Dark",
+    description: "Modern design with sophisticated dark sidebar",
+  },
+  {
+    id: Templates.DATA_SCIENCE_MODULAR,
+    name: "Data Science",
+    description: "Tech-focused modular layout for developers and analysts",
   },
 ];
 
@@ -180,14 +202,23 @@ export default function TemplateGallery({
                 </div>
 
                 {/* Template Info */}
-                <h3 className="font-semibold text-sm mb-1">{template.name}</h3>
-                <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
-                  {template.description}
-                </p>
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-sm mb-1">{template.name}</h3>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
+                      {template.description}
+                    </p>
+                  </div>
+                  {template.recommended && (
+                    <span className="ml-2 text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white px-2 py-0.5 rounded-full font-semibold shrink-0">
+                      ★ Recommended
+                    </span>
+                  )}
+                </div>
 
                 {/* Selected Badge */}
                 {isSelected && (
-                  <div className="absolute top-2 right-2 bg-purple-500 text-white text-xs px-2 py-1 rounded-full">
+                  <div className="absolute top-2 right-2 bg-purple-500 text-white text-xs px-2 py-1 rounded-full shadow-lg">
                     ✓ Selected
                   </div>
                 )}
@@ -196,8 +227,13 @@ export default function TemplateGallery({
           })}
         </div>
 
-        <div className="mt-4 text-center text-sm text-gray-500">
-          <p>All templates are ATS-friendly and print-optimized.</p>
+        <div className="mt-6 space-y-2 text-center">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            🎨 Now with <span className="font-bold  text-purple-600">12 Professional Templates</span>
+          </p>
+          <p className="text-xs text-gray-500">
+            All templates are ATS-friendly, print-optimized, and display all your resume data.
+          </p>
         </div>
       </DialogContent>
     </Dialog>
