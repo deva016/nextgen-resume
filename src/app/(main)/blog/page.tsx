@@ -47,6 +47,112 @@ export default function BlogPage() {
           </p>
         </div>
 
+        {/* Latest Articles */}
+        <section className="mb-16">
+          <h2 className="mb-8 text-3xl font-bold">📚 Latest Articles</h2>
+          
+          <div className="grid gap-6 md:grid-cols-2">
+            {/* Article 1: Development Journey */}
+            <article className="group rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:border-purple-500/50 hover:bg-white/10">
+              <div className="mb-3 flex items-center gap-2 text-sm text-purple-400">
+                <span className="rounded-full bg-purple-500/20 px-2 py-0.5">Development</span>
+                <span className="text-gray-500">•</span>
+                <span className="text-gray-400">16 min read</span>
+              </div>
+              <h3 className="mb-3 text-xl font-bold group-hover:text-purple-400 transition-colors">
+                Building NextGen Resume Builder: A 6-Week Journey
+              </h3>
+              <p className="mb-4 text-gray-400">
+                How I built a full-featured, AI-powered resume builder from scratch in 6 weeks. 
+                Week-by-week timeline covering challenges, pivotal decisions, and lessons learned from initial concept to production deployment.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="text-xs text-gray-500">#NextJS</span>
+                <span className="text-xs text-gray-500">#ProjectManagement</span>
+                <span className="text-xs text-gray-500">#WebDev</span>
+              </div>
+            </article>
+
+            {/* Article 2: Template Implementation */}
+            <article className="group rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:border-pink-500/50 hover:bg-white/10">
+              <div className="mb-3 flex items-center gap-2 text-sm text-pink-400">
+                <span className="rounded-full bg-pink-500/20 px-2 py-0.5">Technical</span>
+                <span className="text-gray-500">•</span>
+                <span className="text-gray-400">15 min read</span>
+              </div>
+              <h3 className="mb-3 text-xl font-bold group-hover:text-pink-400 transition-colors">
+                12 Professional Resume Templates: A Technical Deep Dive
+              </h3>
+              <p className="mb-4 text-gray-400">
+                Designing and implementing a comprehensive template system with full data display, consistent formatting, 
+                and beautiful aesthetics. Includes the data truncation bug saga and 26-test date formatting solution.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="text-xs text-gray-500">#React</span>
+                <span className="text-xs text-gray-500">#TypeScript</span>
+                <span className="text-xs text-gray-500">#DesignSystems</span>
+              </div>
+            </article>
+
+            {/* Article 3: AI Integration */}
+            <article className="group rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:border-blue-500/50 hover:bg-white/10">
+              <div className="mb-3 flex items-center gap-2 text-sm text-blue-400">
+                <span className="rounded-full bg-blue-500/20 px-2 py-0.5">AI</span>
+                <span className="text-gray-500">•</span>
+                <span className="text-gray-400">17 min read</span>
+              </div>
+              <h3 className="mb-3 text-xl font-bold group-hover:text-blue-400 transition-colors">
+                Integrating Google Gemini AI for Smart Resume Generation
+              </h3>
+              <p className="mb-4 text-gray-400">
+                From prompt engineering to production: building AI-powered content generation for resume writing. 
+                Complete guide covering Gemini setup, prompt strategies, error handling, and real-world results.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="text-xs text-gray-500">#AI</span>
+                <span className="text-xs text-gray-500">#GoogleGemini</span>
+                <span className="text-xs text-gray-500">#PromptEngineering</span>
+              </div>
+            </article>
+
+            {/* Article 4: ATS Platform */}
+            <article className="group rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:border-green-500/50 hover:bg-white/10">
+              <div className="mb-3 flex items-center gap-2 text-sm text-green-400">
+                <span className="rounded-full bg-green-500/20 px-2 py-0.5">Backend</span>
+                <span className="text-gray-500">•</span>
+                <span className="text-gray-400">16 min read</span>
+              </div>
+              <h3 className="mb-3 text-xl font-bold group-hover:text-green-400 transition-colors">
+                Building an ATS-Friendly Resume Platform from Scratch
+              </h3>
+              <p className="mb-4 text-gray-400">
+                How I built a comprehensive ATS score checker that parses resumes, analyzes compatibility, and provides 
+                actionable feedback. Covers PDF/DOCX parsing, scoring algorithms, and AI-powered suggestions.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="text-xs text-gray-500">#ATS</span>
+                <span className="text-xs text-gray-500">#Parsing</span>
+                <span className="text-xs text-gray-500">#CareerTech</span>
+              </div>
+            </article>
+          </div>
+
+          {/* Articles CTA */}
+          <div className="mt-8 text-center">
+            <p className="text-gray-400">
+              Want to read these articles? They're available in the project documentation.{" "}
+              <a 
+                href="https://github.com/deva016/nextgen-resume" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-purple-400 hover:text-purple-300 transition-colors underline"
+              >
+                View on GitHub →
+              </a>
+            </p>
+          </div>
+        </section>
+
         {/* Live Features */}
         <section className="mb-16">
           <div className="mb-8 flex items-center gap-3">
