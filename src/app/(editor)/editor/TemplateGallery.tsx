@@ -37,6 +37,7 @@ const templateInfo = [
     id: Templates.MODERN_PROFESSIONAL,
     name: "Modern Professional",
     description: "Blue accents with skill badges and clean sections",
+    recommended: true,
   },
   {
     id: Templates.CREATIVE_GRADIENT,
@@ -52,6 +53,7 @@ const templateInfo = [
     id: Templates.MODERN_MINIMAL,
     name: "Modern Minimal",
     description: "Minimalist design with ample whitespace",
+    recommended: true,
   },
   {
     id: Templates.SIDEBAR,
@@ -72,6 +74,7 @@ const templateInfo = [
     id: Templates.CLEAN_PROFESSIONAL,
     name: "Clean Professional",
     description: "Ultra-clean single column with ruled sections",
+    recommended: true,
   },
   {
     id: Templates.LUXSLEEK_DARK_SIDEBAR,
@@ -82,6 +85,7 @@ const templateInfo = [
     id: Templates.DATA_SCIENCE_MODULAR,
     name: "Data Science",
     description: "Tech-focused modular layout for developers and analysts",
+    recommended: true,
   },
 ];
 
@@ -167,64 +171,145 @@ export default function TemplateGallery({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-          {templateInfo.map((template) => {
-            const isSelected = currentTemplate === template.id;
+        {/* Recommended Templates Section */}
+        <div className="mt-4">
+          <div className="flex items-center gap-2 mb-3">
+            <h3 className="text-sm font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              ⭐ Recommended Templates
+            </h3>
+            <span className="text-xs text-gray-500">(6 templates)</span>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+            {templateInfo
+              .filter((template) => template.recommended)
+              .map((template) => {
+                const isSelected = currentTemplate === template.id;
 
-            return (
-              <button
-                key={template.id}
-                onClick={() => handleSelectTemplate(template.id)}
-                className={`
-                  group relative rounded-lg border-2 p-2 text-left transition-all
-                  hover:scale-105 hover:shadow-lg
-                  ${
-                    isSelected
-                      ? "border-purple-500 bg-purple-50 dark:bg-purple-950/20"
-                      : "border-gray-200 hover:border-purple-300 dark:border-gray-700 dark:hover:border-purple-700"
-                  }
-                `}
-              >
-                {/* Actual Template Preview */}
-                <div className="w-full aspect-[210/297] rounded-md mb-2 overflow-hidden bg-white shadow-sm relative">
-                   <div 
-                      className="origin-top-left" 
-                      style={{ 
-                        width: "400%", // 4x the card width (approx 800px to match A4 794px)
-                        transform: "scale(0.25)", // Scale back down to fit
-                      }}
-                   >
-                      <ResumePreview
-                        resumeData={{ ...sampleResumeData, template: template.id }}
-                        className="pointer-events-none shadow-none"
-                      />
-                   </div>
-                </div>
+                return (
+                  <button
+                    key={template.id}
+                    onClick={() => handleSelectTemplate(template.id)}
+                    className={`
+                      group relative rounded-lg border-2 p-2 text-left transition-all
+                      hover:scale-105 hover:shadow-lg
+                      ${
+                        isSelected
+                          ? "border-purple-500 bg-purple-50 dark:bg-purple-950/20"
+                          : "border-gray-200 hover:border-purple-300 dark:border-gray-700 dark:hover:border-purple-700"
+                      }
+                    `}
+                  >
+                    {/* Actual Template Preview */}
+                    <div className="w-full aspect-[210/297] rounded-md mb-2 overflow-hidden bg-white shadow-sm relative">
+                       <div 
+                          className="origin-top-left" 
+                          style={{ 
+                            width: "400%",
+                            transform: "scale(0.25)",
+                          }}
+                       >
+                          <ResumePreview
+                            resumeData={{ ...sampleResumeData, template: template.id }}
+                            className="pointer-events-none shadow-none"
+                          />
+                       </div>
+                    </div>
 
-                {/* Template Info */}
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-sm mb-1">{template.name}</h3>
-                    <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
-                      {template.description}
-                    </p>
+                    {/* Template Info */}
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-sm mb-1">{template.name}</h3>
+                        <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
+                          {template.description}
+                        </p>
+                      </div>
+                      <span className="ml-2 text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white px-2 py-0.5 rounded-full font-semibold shrink-0">
+                        ★
+                      </span>
+                    </div>
+
+                    {/* Selected Badge */}
+                    {isSelected && (
+                      <div className="absolute top-2 right-2 bg-purple-500 text-white text-xs px-2 py-1 rounded-full shadow-lg">
+                        ✓ Selected
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="my-6 border-t border-gray-200 dark:border-gray-700" />
+
+        {/* All Templates Section */}
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300">
+              📋 All Templates
+            </h3>
+            <span className="text-xs text-gray-500">(12 templates)</span>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {templateInfo.map((template) => {
+              const isSelected = currentTemplate === template.id;
+
+              return (
+                <button
+                  key={template.id}
+                  onClick={() => handleSelectTemplate(template.id)}
+                  className={`
+                    group relative rounded-lg border-2 p-2 text-left transition-all
+                    hover:scale-105 hover:shadow-lg
+                    ${
+                      isSelected
+                        ? "border-purple-500 bg-purple-50 dark:bg-purple-950/20"
+                        : "border-gray-200 hover:border-purple-300 dark:border-gray-700 dark:hover:border-purple-700"
+                    }
+                  `}
+                >
+                  {/* Actual Template Preview */}
+                  <div className="w-full aspect-[210/297] rounded-md mb-2 overflow-hidden bg-white shadow-sm relative">
+                     <div 
+                        className="origin-top-left" 
+                        style={{ 
+                          width: "400%",
+                          transform: "scale(0.25)",
+                        }}
+                     >
+                        <ResumePreview
+                          resumeData={{ ...sampleResumeData, template: template.id }}
+                          className="pointer-events-none shadow-none"
+                        />
+                     </div>
                   </div>
-                  {template.recommended && (
-                    <span className="ml-2 text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white px-2 py-0.5 rounded-full font-semibold shrink-0">
-                      ★ Recommended
-                    </span>
+
+                  {/* Template Info */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-sm mb-1">{template.name}</h3>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
+                        {template.description}
+                      </p>
+                    </div>
+                    {template.recommended && (
+                      <span className="ml-2 text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white px-2 py-0.5 rounded-full font-semibold shrink-0">
+                        ★
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Selected Badge */}
+                  {isSelected && (
+                    <div className="absolute top-2 right-2 bg-purple-500 text-white text-xs px-2 py-1 rounded-full shadow-lg">
+                      ✓ Selected
+                    </div>
                   )}
-                </div>
-
-                {/* Selected Badge */}
-                {isSelected && (
-                  <div className="absolute top-2 right-2 bg-purple-500 text-white text-xs px-2 py-1 rounded-full shadow-lg">
-                    ✓ Selected
-                  </div>
-                )}
-              </button>
-            );
-          })}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <div className="mt-6 space-y-2 text-center">
