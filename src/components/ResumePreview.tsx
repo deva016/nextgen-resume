@@ -12,6 +12,10 @@ import ExecutiveTemplate from "./templates/ExecutiveTemplate";
 import ModernMinimalTemplate from "./templates/ModernMinimalTemplate";
 import SidebarTemplate from "./templates/SidebarTemplate";
 import ProfessionalSidebarTemplate from "./templates/ProfessionalSidebarTemplate";
+import DeedyTwoColumnTemplate from "./templates/DeedyTwoColumnTemplate";
+import CleanProfessionalTemplate from "./templates/CleanProfessionalTemplate";
+import LuxSleekDarkSidebarTemplate from "./templates/LuxSleekDarkSidebarTemplate";
+import DataScienceModularTemplate from "./templates/DataScienceModularTemplate";
 import { RenderHtml } from "@/lib/html";
 
 interface ResumePreviewProps {
@@ -46,6 +50,14 @@ export default function ResumePreview({
         return <SidebarTemplate resumeData={resumeData} contentRef={contentRef} />;
       case "professional_sidebar":
         return <ProfessionalSidebarTemplate resumeData={resumeData} contentRef={contentRef} />;
+      case "deedy_two_column":
+        return <DeedyTwoColumnTemplate resumeData={resumeData} contentRef={contentRef} />;
+      case "clean_professional":
+        return <CleanProfessionalTemplate resumeData={resumeData} contentRef={contentRef} />;
+      case "luxsleek_dark_sidebar":
+        return <LuxSleekDarkSidebarTemplate resumeData={resumeData} contentRef={contentRef} />;
+      case "data_science_modular":
+        return <DataScienceModularTemplate resumeData={resumeData} contentRef={contentRef} />;
       default:
         // Default: Modern template (original layout below)
         return null;

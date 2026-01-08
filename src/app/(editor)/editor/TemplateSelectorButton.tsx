@@ -10,6 +10,10 @@ export const Templates = {
   MODERN_MINIMAL: "modern_minimal",
   SIDEBAR: "sidebar",
   PROFESSIONAL_SIDEBAR: "professional_sidebar",
+  DEEDY_TWO_COLUMN: "deedy_two_column",
+  CLEAN_PROFESSIONAL: "clean_professional",
+  LUXSLEEK_DARK_SIDEBAR: "luxsleek_dark_sidebar",
+  DATA_SCIENCE_MODULAR: "data_science_modular",
 };
 
 const templates = Object.values(Templates);
@@ -23,6 +27,10 @@ const templateLabels: Record<string, string> = {
   modern_minimal: "Minimal",
   sidebar: "Sidebar",
   professional_sidebar: "Pro Sidebar",
+  deedy_two_column: "Deedy Two-Column",
+  clean_professional: "Clean Professional",
+  luxsleek_dark_sidebar: "LuxSleek Dark",
+  data_science_modular: "Data Science",
 };
 
 interface TemplateSelectorButtonProps {
