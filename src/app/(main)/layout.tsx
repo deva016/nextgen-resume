@@ -37,6 +37,7 @@ export default async function Layout({
               <span className="text-sm text-gray-400">NextGen Resume Builder</span>
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-400">
+              <Link href="/docs" className="hover:text-white transition-colors">Docs</Link>
               <Link href="/tos" className="hover:text-white transition-colors">Terms of Service</Link>
               <span>© {new Date().getFullYear()} All rights reserved</span>
             </div>
