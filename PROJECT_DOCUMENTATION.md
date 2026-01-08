@@ -1374,34 +1374,34 @@ With 12 professionally designed templates, AI-powered content generation, compre
 ### 7.1 Technologies & Frameworks
 
 **Frontend:**
-- Next.js 15: https://nextjs.org/
-- React 18: https://react.dev/
-- TypeScript: https://www.typescriptlang.org/
-- Tailwind CSS: https://tailwindcss.com/
-- Tiptap: https://tiptap.dev/
-- React Hook Form: https://react-hook-form.com/
+- ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js&logoColor=white)
+- ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
+- ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript&logoColor=white)
+- ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-06B6D4?logo=tailwindcss&logoColor=white)
+- ![Tiptap](https://img.shields.io/badge/Tiptap-Editor-000000?logo=tiptap&logoColor=white)
+- ![React Hook Form](https://img.shields.io/badge/React_Hook_Form-7.0-EC5990?logo=reacthookform&logoColor=white)
 
 **Backend:**
-- Prisma ORM: https://www.prisma.io/
-- PostgreSQL: https://www.postgresql.org/
-- Neon Database: https://neon.tech/
+- ![Prisma](https://img.shields.io/badge/Prisma-5.22-2D3748?logo=prisma&logoColor=white)
+- ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
+- ![Neon](https://img.shields.io/badge/Neon-Database-00E699?logo=neon&logoColor=white)
 
 **Authentication:**
-- Clerk: https://clerk.com/
+- ![Clerk](https://img.shields.io/badge/Clerk-Auth-6C47FF?logo=clerk&logoColor=white)
 
 **AI & Processing:**
-- Google Gemini: https://ai.google.dev/
-- pdf-parse: https://www.npmjs.com/package/pdf-parse
-- mammoth: https://www.npmjs.com/package/mammoth
-- date-fns: https://date-fns.org/
+- ![Google Gemini](https://img.shields.io/badge/Gemini-2.5_Flash-4285F4?logo=google&logoColor=white)
+- ![pdf-parse](https://img.shields.io/badge/pdf--parse-1.1-red?logo=npm)
+- ![mammoth](https://img.shields.io/badge/mammoth-DOCX-blue?logo=npm)
+- ![date-fns](https://img.shields.io/badge/date--fns-3.0-purple?logo=npm)
 
 **Deployment:**
-- Vercel: https://vercel.com/
+- ![Vercel](https://img.shields.io/badge/Vercel-Production-000000?logo=vercel&logoColor=white)
 
 ### 7.2 Code Repository
 
-- **GitHub**: https://github.com/deva016/nextgen-resume
-- **Production URL**: [Deployed on Vercel]
+- ![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white) **[nextgen-resume](https://github.com/deva016/nextgen-resume)**
+- ![Vercel](https://img.shields.io/badge/Live-Production-00C7B7?logo=vercel&logoColor=white) **[Deployed on Vercel]**
 
 ### 7.3 Appendix A - Database Schema
 
